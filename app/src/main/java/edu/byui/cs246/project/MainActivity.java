@@ -17,5 +17,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void Hello2(){
         //Hello2;
+        //Jason's hello
+    }
+    
+    public void AdamsHello(){
+        //Hello;
     }
 }

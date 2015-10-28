@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public void Hello2(){
         //Hello2;
         //Jason's hello
+        //This is what I am adding for the merge
     }
     
     public void AdamsHello(){

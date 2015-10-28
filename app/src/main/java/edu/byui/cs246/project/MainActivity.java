@@ -14,4 +14,8 @@ public class MainActivity extends AppCompatActivity {
     public void Hello(){
         //Hello;
     }
+
+    public void Hello2(){
+        //Hello2;
+    }
 }

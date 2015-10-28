@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
         //Hello2;
         //Jason's hello
     }
-
+    
     public void AdamsHello(){
-        //This is the Hello especially from Adam
+        //This is the Hello
+        //I dont think so
     }
 }

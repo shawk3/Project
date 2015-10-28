@@ -22,6 +22,6 @@ public class MainActivity extends AppCompatActivity {
     }
     
     public void AdamsHello(){
-        //Hello;
+        //Hello i dont think so;
     }
 }

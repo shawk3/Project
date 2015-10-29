@@ -11,18 +11,5 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void Hello(){
-        //Hello;
-        //My first change
-    }
 
-    public void Hello2(){
-        //Hello2;
-        //Jason's hello
-    }
-    
-    public void AdamsHello(){
-        //This is the Hello
-        //I dont think so
-    }
 }

@@ -1,5 +1,6 @@
 package edu.byui.cs246.project;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -9,6 +10,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startActivity(new Intent(getApplicationContext(), QuestionActivity.class));//TEST CODE
+
     }
 
     public void Hello(){

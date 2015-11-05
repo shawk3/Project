@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.test.InstrumentationTestCase;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -137,4 +138,25 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
+    //TESTS
+
+    //contains tests for the question activity
+    public class QuestionTests extends InstrumentationTestCase {
+
+        public void testNextQuestionIndexOverflow() throws Exception{
+            QuestionActivity toTest = new QuestionActivity();
+            for (int i = 0; i < 1000; i++)
+                 toTest.nextQuestion();
+            assert(toTest.index <= 2);
+        }
+        public void testPrevQuestionIndexOverflow() throws Exception {
+            QuestionActivity toTest = new QuestionActivity();
+            for (int i = 0; i < 1000; i++)
+                toTest.prevQuestion();
+            assert (toTest.index >= 0);
+        }
+    }
+
 }

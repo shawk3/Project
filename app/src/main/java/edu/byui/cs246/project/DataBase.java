@@ -91,7 +91,7 @@ public class DataBase {
         return c;
     }
 
-    public boolean updateRow(long rowId, String text, int Answer){
+    public boolean updateRow(long rowId, String text, String Answer){
         String where = Key_ROWID + " = " + rowId;
         ContentValues  newValues = new ContentValues();
         newValues.put(Key_QUESTION_TEXT, text);
@@ -100,6 +100,13 @@ public class DataBase {
         return db.update(TABLE, newValues, where, null) > 0;
     }
 
+    public boolean updateRow(long rowId, String Answer){
+        String where = Key_ROWID + " = " + rowId;
+        ContentValues  newValues = new ContentValues();
+        newValues.put(Key_QUESTION_ANSWER, Answer);
+
+        return db.update(TABLE, newValues, where, null) > 0;
+    }
 
 
 

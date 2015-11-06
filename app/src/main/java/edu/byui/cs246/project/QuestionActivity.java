@@ -17,6 +17,7 @@ public class QuestionActivity extends AppCompatActivity {
     String[] questions;
     int index;
     int[] answers;
+    DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class QuestionActivity extends AppCompatActivity {
      * -Saves currently selected answer
     ***************************************************/
     private void saveAnswer(){
-        switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
+        /*switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
             case R.id.radioButtonYes:
                 answers[index] = 3;
                 break;
@@ -104,7 +105,7 @@ public class QuestionActivity extends AppCompatActivity {
                 answers[index] = 1;
                 break;
             default:
-        }
+        }*/
     }
 
     /***************************************************
@@ -112,9 +113,17 @@ public class QuestionActivity extends AppCompatActivity {
      * -Retieves Question set from its source.
     **************************************************/
     private void retieveQuestions(){
+        /*
         questions = new String[]{"What is your name?", "What is your quest?", "What is the airspeed velocity of a swallow?"};
         index = 0;
         answers = new int[]{0,0,0};
+        */
+        db = new DataBase (this);
+        db.open();
+        db.insertRow("What is your name?", "U");
+        db.insertRow("What is your quest?", "U");
+        db.insertRow("What is the airspeed velocity of a swallow?", "U");
+        index = 1;
     }
 
     /***************************************************
@@ -122,8 +131,8 @@ public class QuestionActivity extends AppCompatActivity {
      * -Displays the current question
     ***************************************************/
     private void displayQuestion(){
-        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index + 1) + ":\n" + questions[index]);
-        switch(answers[index]){
+        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index + 1) + ":\n" + (db.getRow(index)).getString(1));
+        /*switch(answers[index]){
             case 3:
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonYes);
                 break;
@@ -136,7 +145,7 @@ public class QuestionActivity extends AppCompatActivity {
             case 0:
                 ((RadioGroup) findViewById(R.id.answerButtons)).clearCheck();
                 break;
-        }
+        }*/
     }
 
 

@@ -1,5 +1,6 @@
 package edu.byui.cs246.project;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,9 +15,9 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class QuestionActivity extends AppCompatActivity {
-    String[] questions;
-    int index;
-    int[] answers;
+    //long index;
+    Cursor index;
+    //long max;
     DataBase db;
 
     @Override
@@ -36,6 +37,22 @@ public class QuestionActivity extends AppCompatActivity {
         });*/
         this.retieveQuestions();
         this.displayQuestion();
+    }
+    /***************************************************
+     * Retieve Questions
+     * -Retieves Question set from its source.
+     **************************************************/
+    private void retieveQuestions(){
+        db = new DataBase (this);
+        db.open();
+        db.deleteAll();
+        db.insertRow("What is your name?", "U");
+        db.insertRow("What is your quest?", "U");
+        db.insertRow("What is the airspeed velocity of a swallow?", "U");
+        //db.updateRow(1, "WHat is your name?", "Y");
+        //db.updateRow(2, "Y");
+        //db.updateRow(3, "Y");
+        index = db.getAllRows();
     }
 
     /***************************************************
@@ -60,9 +77,9 @@ public class QuestionActivity extends AppCompatActivity {
      *  question.
      ***************************************************/
     private void prevQuestion(){
-        if (index > 0){
+        if (!index.isFirst()){
             saveAnswer();
-            index--;
+            index.moveToPrevious();
             displayQuestion();
         }
     }
@@ -74,11 +91,15 @@ public class QuestionActivity extends AppCompatActivity {
      *  question.
     ***************************************************/
     private void nextQuestion(){
-        if (index < 2){
+        if (!index.isLast()) {
             saveAnswer();
-            index++;
+            index.moveToNext();
             displayQuestion();
         }
+        else
+            ;
+
+
     }
 
     /***************************************************
@@ -94,36 +115,22 @@ public class QuestionActivity extends AppCompatActivity {
      * -Saves currently selected answer
     ***************************************************/
     private void saveAnswer(){
-        /*switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
+        //detect which radio button is pressed and save the corresponding answer
+        switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
             case R.id.radioButtonYes:
-                answers[index] = 3;
+                db.updateRow(index.getPosition() + 1, "Y");
+                //((TextView) findViewById(R.id.testView)).setText(String.valueOf(index.getPosition()));
                 break;
             case R.id.radioButtonNo:
-                answers[index] = 2;
+                db.updateRow(index.getPosition() + 1, "N");
                 break;
             case R.id.radioButtonNA:
-                answers[index] = 1;
+                db.updateRow(index.getPosition() + 1, "NA");
                 break;
             default:
-        }*/
-    }
+                //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
+        }
 
-    /***************************************************
-     * Retieve Questions
-     * -Retieves Question set from its source.
-    **************************************************/
-    private void retieveQuestions(){
-        /*
-        questions = new String[]{"What is your name?", "What is your quest?", "What is the airspeed velocity of a swallow?"};
-        index = 0;
-        answers = new int[]{0,0,0};
-        */
-        db = new DataBase (this);
-        db.open();
-        db.insertRow("What is your name?", "U");
-        db.insertRow("What is your quest?", "U");
-        db.insertRow("What is the airspeed velocity of a swallow?", "U");
-        index = 1;
     }
 
     /***************************************************
@@ -131,21 +138,37 @@ public class QuestionActivity extends AppCompatActivity {
      * -Displays the current question
     ***************************************************/
     private void displayQuestion(){
-        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index + 1) + ":\n" + (db.getRow(index)).getString(1));
-        /*switch(answers[index]){
-            case 3:
+        //display current question
+        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + index.getString(1));
+
+        //display saved answer, if any
+        switch(index.getString(2)){
+            case "Y":
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonYes);
                 break;
-            case 2:
+            case "N":
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonNo);
                 break;
-            case 1:
+            case "NA":
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonNA);
                 break;
-            case 0:
+            case "U":
                 ((RadioGroup) findViewById(R.id.answerButtons)).clearCheck();
                 break;
-        }*/
+        }
+
+        //set prev/next button apearance
+        if(!index.isFirst())
+            ((TextView) findViewById(R.id.prevText)).setText("<prev");
+        else
+            ((TextView) findViewById(R.id.prevText)).setText("");
+
+        if(!index.isLast())
+            ((TextView) findViewById(R.id.nextText)).setText("next>");
+        else
+            ((TextView) findViewById(R.id.nextText)).setText("Finish");
+
+        //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
     }
 
 
@@ -158,13 +181,13 @@ public class QuestionActivity extends AppCompatActivity {
             QuestionActivity toTest = new QuestionActivity();
             for (int i = 0; i < 1000; i++)
                  toTest.nextQuestion();
-            assert(toTest.index <= 2);
+            assert(toTest.index.getPosition() <= 3);
         }
         public void testPrevQuestionIndexOverflow() throws Exception {
             QuestionActivity toTest = new QuestionActivity();
             for (int i = 0; i < 1000; i++)
                 toTest.prevQuestion();
-            assert (toTest.index >= 0);
+            assert (toTest.index.getPosition() >= 1);
         }
     }
 

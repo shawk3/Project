@@ -2,4 +2,26 @@
     <string name="app_name">Project</string>
     <string name="title_activity_question">QuestionActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_demographics">DemographicsActivity</string>
+    <string name="title_activity_demographic">DemographicActivity</string>
+
+    <string-array name="demographics">
+        <item>Chemical</item>
+        <item>Commercial Facilities</item>
+        <item>Communications</item>
+        <item>Critical Manufacturing</item>
+        <item>Dams</item>
+        <item>Defense Industrial Base</item>
+        <item>Emergency Services</item>
+        <item>Energy</item>
+        <item>Financial Services</item>
+        <item>Food and Agriculture</item>
+        <item>Government Facilities</item>
+        <item>Healthcare and Public Health</item>
+        <item>Information Technology</item>
+        <item>Nuclear Reactors, Materials, and Waste</item>
+        <item>Sector-Specific Agencies</item>
+        <item>Transportation</item>
+        <item>Water and Wastewater Systems</item>
+    </string-array>
 </resources>

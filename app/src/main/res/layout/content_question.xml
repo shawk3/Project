@@ -26,37 +26,35 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="&lt;prev"
-        android:id="@+id/textView3"
-        android:layout_marginBottom="102dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="60dp"
+        android:id="@+id/prevText"
         android:clickable="true"
         android:textColor="#0000FF"
-        android:onClick="prevClick" />
+        android:onClick="prevClick"
+        android:layout_marginTop="100dp"
+        android:layout_below="@+id/testView"
+        android:layout_alignEnd="@+id/testView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="next>"
-        android:id="@+id/textView4"
+        android:id="@+id/nextText"
         android:textColor="#0000FF"
         android:onClick="nextClick"
         android:clickable="true"
         android:layout_gravity="center_horizontal"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3"
-        android:layout_marginStart="88dp"
-        android:layout_alignParentEnd="false" />
+        android:layout_marginStart="96dp"
+        android:layout_alignTop="@+id/prevText"
+        android:layout_toEndOf="@+id/prevText" />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/QuestionText"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/textView4"
-        android:layout_above="@+id/textView4"
+        android:layout_alignStart="@+id/nextText"
+        android:layout_above="@+id/nextText"
         android:id="@+id/answerButtons"
         android:clickable="false">
 
@@ -81,5 +79,14 @@
             android:id="@+id/radioButtonNA"
             android:checked="false" />
     </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/testView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

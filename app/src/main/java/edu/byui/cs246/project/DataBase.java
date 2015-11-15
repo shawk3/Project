@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.test.InstrumentationTestCase;
 
 /**
  * Created by Kyle on 10/31/2015.
@@ -12,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBase {
     public static final String NAME = "myDB";
     public static final String TABLE = "mainTable";
-    public static final int VERSION = 1;
+    public static final int VERSION = 3;
 
     public static final String Key_ROWID = "id";
     public static final int COL_ROWID = 0;
@@ -31,7 +32,7 @@ public class DataBase {
         + Key_QUESTION_ANSWER + " text not null"
         + ");";
 
-    private final Context context;
+    private Context context;
 
     private DataBaseHelper myDBHelper;
     private SQLiteDatabase db;
@@ -126,6 +127,28 @@ public class DataBase {
             db.execSQL("Drop Table if exists " + NAME);
 
             onCreate(db);
+        }
+    }
+
+    public class DataBaseTests extends InstrumentationTestCase {
+        public long id;
+
+        public void testInsertRow(){
+            id = insertRow("My Test Question", "U");
+            Cursor c = getRow(id);
+            assert(c.moveToFirst());
+
+            c.close();
+        }
+
+        public void testUpdateRow(){
+            updateRow(id, "Y");
+            Cursor c = getRow(id);
+            assert(c.moveToFirst());
+            String ans = c.getString(COL_QUESTION_ANSWER);
+            assertEquals(ans, "Y");
+            assert(1 == 2);
+
         }
     }
 

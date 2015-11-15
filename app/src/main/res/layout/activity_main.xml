@@ -59,7 +59,10 @@
         android:layout_below="@+id/demographics.b"
         android:layout_alignStart="@+id/demographics.b"
         android:layout_marginTop="41dp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:clickable="true"
+        android:enabled="true"
+        android:onClick="clickQuestions" />
 
     <Button
         android:layout_width="wrap_content"
@@ -68,5 +71,20 @@
         android:id="@+id/analysis.b"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/questions.b"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:enabled="true"
+        android:onClick="clickAnalysis"
+        android:clickable="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="createData"
+        android:id="@+id/create.b"
+        android:layout_below="@+id/new.b"
+        android:layout_toEndOf="@+id/analysis.b"
+        android:clickable="true"
+        android:enabled="true"
+        android:onClick="clickCreateDataBase" />
 </RelativeLayout>

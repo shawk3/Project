@@ -7,26 +7,30 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.test.InstrumentationTestCase;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.support.v7.app.ActionBar;
 
 import org.w3c.dom.Text;
 
 public class QuestionActivity extends AppCompatActivity {
-    //long index;
     Cursor index;
-    //long max;
     DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+//        setSupportActionBar(toolbar);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +42,29 @@ public class QuestionActivity extends AppCompatActivity {
         this.retieveQuestions();
         this.displayQuestion();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_demographics:
+                break;
+            case R.id.action_questions:
+                break;
+            case R.id.action_analysis:
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
     /***************************************************
      * Retieve Questions
      * -Retieves Question set from its source.
@@ -49,9 +76,6 @@ public class QuestionActivity extends AppCompatActivity {
         db.insertRow("What is your name?", "U");
         db.insertRow("What is your quest?", "U");
         db.insertRow("What is the airspeed velocity of a swallow?", "U");
-        //db.updateRow(1, "WHat is your name?", "Y");
-        //db.updateRow(2, "Y");
-        //db.updateRow(3, "Y");
         index = db.getAllRows();
     }
 

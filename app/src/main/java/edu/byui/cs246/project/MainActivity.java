@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Only used to create database
     public void clickCreateDataBase(View v){
-        //DataBaseCreator creator = new DataBaseCreator(db);
-        //creator.create();
+        DataBaseCreator creator = new DataBaseCreator(db);
+        creator.create();
     }
 
     private void showOtherOptions(){
@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickQuestions(View v){
         startActivity(new Intent(getApplicationContext(), QuestionActivity.class));//TEST CODE
+    }
+
+    public void clickDemographics(View v){
+        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
     }
 
 }

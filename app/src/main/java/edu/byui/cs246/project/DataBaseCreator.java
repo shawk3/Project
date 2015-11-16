@@ -31,7 +31,7 @@ public class DataBaseCreator {
         for (String s:e) {
             dataBase.insertRow(s, questions.get(s));
         }
-        dataBase.close();
+        //dataBase.close();
     }
 
     private void upload() {

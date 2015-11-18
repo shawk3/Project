@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBar;
 import org.w3c.dom.Text;
 
 public class QuestionActivity extends AppCompatActivity {
+    private static final String TAG = QuestionActivity.class.getSimpleName();
     Cursor index;
     DataBase db;
 
@@ -89,10 +90,10 @@ public class QuestionActivity extends AppCompatActivity {
 
         //basic logging code
         if(index.moveToFirst()) {
-            Log.d("Good message", "Successfully pulled from data base.");
+            Log.i(TAG, "Successfully pulled from data base.");
         }
         else{
-            Log.d("Bad message", "Did not pull from data base.");
+            Log.e(TAG, "Did not pull from data base.");
         }
     }
 
@@ -198,6 +199,7 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
         }
 
+
         //set prev/next button apearance
         if(!index.isFirst())
             ((TextView) findViewById(R.id.prevText)).setText("<prev");
@@ -210,6 +212,7 @@ public class QuestionActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.nextText)).setText("Finish");
 
         //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
+        Log.i(TAG, "The current quetion is \"" + index.getString(1) + "\".");
     }
 
 

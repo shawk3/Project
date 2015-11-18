@@ -1,5 +1,6 @@
 package edu.byui.cs246.project;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,17 +49,24 @@ public class QuestionActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         return true;
     }
 
 
     public boolean onOptionsItemSelected (MenuItem item) {
         switch(item.getItemId()) {
+            case R.id.action_main:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                break;
             case R.id.action_demographics:
+                startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
                 break;
             case R.id.action_questions:
+                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
                 break;
             case R.id.action_analysis:
+                startActivity(new Intent(getApplicationContext(), Analysis.class));
                 break;
             default:
                 return false;
@@ -77,6 +86,14 @@ public class QuestionActivity extends AppCompatActivity {
         db.insertRow("What is your quest?", "U");
         db.insertRow("What is the airspeed velocity of a swallow?", "U");
         index = db.getAllRows();
+
+        //basic logging code
+        if(index.moveToFirst()) {
+            Log.d("Good message", "Successfully pulled from data base.");
+        }
+        else{
+            Log.d("Bad message", "Did not pull from data base.");
+        }
     }
 
     /***************************************************

@@ -21,8 +21,12 @@
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme" >
         </activity>
-        <activity android:name=".Analysis" >
+        <activity android:name=".Analysis"
+            android:label="Analysis">
         </activity>
+        <activity android:name=".DemographicsActivity" >
+        </activity>
+
     </application>
 
 </manifest>

@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,8 +21,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DataBase(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        return true;
+    }
 
 
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_main:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                break;
+            case R.id.action_demographics:
+                startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
+                break;
+            case R.id.action_questions:
+                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
+                break;
+            case R.id.action_analysis:
+                startActivity(new Intent(getApplicationContext(), Analysis.class));
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 
     public void clickLoad(View v){

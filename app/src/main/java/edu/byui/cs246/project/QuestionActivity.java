@@ -29,8 +29,9 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Main");
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
         /*
@@ -50,7 +51,8 @@ public class QuestionActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        menu.findItem(R.id.action_questions).setEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         return true;
     }
 

@@ -27,6 +27,9 @@ public class DataBaseCreator {
         upload();
         //DataBase dataBase = new DataBase(context);
         dataBase.open();
+
+        dataBase.deleteAll();
+
         Set<String> e = questions.keySet();
         for (String s:e) {
             dataBase.insertRow(s, questions.get(s));
@@ -36,6 +39,14 @@ public class DataBaseCreator {
 
     private void upload() {
         questions.put("First Question", "U");
-        questions.put("SEcond Question", "U");
+        questions.put("Second Question", "U");
+        questions.put("Third Question", "U");
+        questions.put("Fourth Question", "U");
+        questions.put("Fith Question", "U");
+        questions.put("Sixth", "U");
+        questions.put("One more Question with a lot of text, text, text text! And here is some more text.. Hi.  Some more", "U");
+        questions.put("Last Question", "U");
+
+
     }
 }

@@ -82,10 +82,10 @@ public class QuestionActivity extends AppCompatActivity {
     private void retieveQuestions(){
         db = new DataBase (this);
         db.open();
-        db.deleteAll();
-        db.insertRow("What is your name?", "U");
-        db.insertRow("What is your quest?", "U");
-        db.insertRow("What is the airspeed velocity of a swallow?", "U");
+        //db.deleteAll();
+        //db.insertRow("What is your name?", "U");
+        //db.insertRow("What is your quest?", "U");
+        //db.insertRow("What is the airspeed velocity of a swallow?", "U");
         index = db.getAllRows();
 
         //basic logging code

@@ -9,10 +9,11 @@ import android.test.InstrumentationTestCase;
 
 /**
  * Created by Kyle on 10/31/2015.
+ * .b  .t  .v
  */
 public class DataBase {
     public static final String NAME = "myDB";
-    public static final String TABLE = "mTable";
+    public static final String TABLE = "mainTable";
     public static final int VERSION = 3;
 
     public static final String Key_ROWID = "id";
@@ -26,7 +27,7 @@ public class DataBase {
 
     public static final String[] ALL_KEYS = new String[] {Key_ROWID, Key_QUESTION_TEXT, Key_QUESTION_ANSWER};
 
-    private static final String DATABASE_CREATE_SQL = "create table " + TABLE
+    private static final String DATABASE_CREATE_SQL = "create table if not exists" + TABLE
         + " (" + Key_ROWID + " integer primary key autoincrement, "
         + Key_QUESTION_TEXT + " text not null, "
         + Key_QUESTION_ANSWER + " text not null"
@@ -76,7 +77,7 @@ public class DataBase {
     }
 
     public Cursor getAllRows(){
-        Cursor c = db.query(true, TABLE, ALL_KEYS, null, null, null, null, null, null);
+        Cursor c = db.query(true, TABLE, ALL_KEYS, null, null, null, null, Key_ROWID, null);
         if(c != null){
             c.moveToFirst();
         }

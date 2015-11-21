@@ -63,17 +63,12 @@ public class MainActivity extends AppCompatActivity {
         //remain on page, enable options
 
 
-        showOtherOptions();
     }
 
     public void clickNew(View v){
         //go to a new page
-        showOtherOptions();
     }
 
-    public void clickQuit(View v){
-        exit(1);
-    }
 
     // Only used to create database
     public void clickCreateDataBase(View v){
@@ -81,29 +76,10 @@ public class MainActivity extends AppCompatActivity {
         creator.create();
     }
 
-    private void showOtherOptions(){
-        Button a = (Button) findViewById(R.id.demographics_b);
-        a.setVisibility(View.VISIBLE);
-        Button b = (Button) findViewById(R.id.questions_b);
-        b.setVisibility(View.VISIBLE);
-        Button c = (Button) findViewById(R.id.analysis_b);
-        c.setVisibility(View.VISIBLE);
-    }
+
 
     public DataBase getDataBase(){
         return db;
-    }
-
-    public void clickAnalysis(View v){
-        startActivity(new Intent(getApplicationContext(), Analysis.class));//TEST CODE
-    }
-
-    public void clickQuestions(View v){
-        startActivity(new Intent(getApplicationContext(), QuestionActivity.class));//TEST CODE
-    }
-
-    public void clickDemographics(View v){
-        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
     }
 
 }

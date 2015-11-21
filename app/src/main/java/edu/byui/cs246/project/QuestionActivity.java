@@ -27,11 +27,12 @@ public class QuestionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getApplicationInfo().targetSdkVersion = 14;                 // To disable the 3-dot menu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Main");
+        getSupportActionBar().setTitle("Questions");
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
         /*

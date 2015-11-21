@@ -3,7 +3,7 @@
     <string name="title_activity_question">QuestionActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="action_settings">settings</string>
-    <string name="action_demographics">demographics</string>
+    <string name="action_demographics">sector</string>
     <string name="action_analysis">analysis</string>
     <string name="action_questions">questions</string>
     <string name="action_main">main</string>

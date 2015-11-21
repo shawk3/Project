@@ -77,7 +77,7 @@ public class DataBase {
     }
 
     public Cursor getAllRows(){
-        Cursor c = db.query(true, TABLE, ALL_KEYS, null, null, null, null, Key_ROWID, null);
+        Cursor c = db.query(true, TABLE, ALL_KEYS, null, null, null, null, null, null);
         if(c != null){
             c.moveToFirst();
         }
@@ -86,6 +86,15 @@ public class DataBase {
 
     public Cursor getRow(long rowId){
         String where = Key_ROWID + " = " + rowId;
+        Cursor c = db.query(true, TABLE, ALL_KEYS, where, null, null, null, null, null);
+        if(c != null){
+            c.moveToFirst();
+        }
+        return c;
+    }
+
+    public Cursor getRow(String questionText){
+        String where = Key_QUESTION_TEXT + " = '" + questionText + "'";
         Cursor c = db.query(true, TABLE, ALL_KEYS, where, null, null, null, null, null);
         if(c != null){
             c.moveToFirst();

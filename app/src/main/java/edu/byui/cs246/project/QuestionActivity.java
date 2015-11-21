@@ -160,16 +160,17 @@ public class QuestionActivity extends AppCompatActivity {
     ***************************************************/
     private void saveAnswer(){
         //detect which radio button is pressed and save the corresponding answer
+        int id = db.getRow(index.getString(db.COL_QUESTION_TEXT)).getInt(db.COL_ROWID);
         switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
             case R.id.radioButtonYes:
-                db.updateRow(index.getPosition() + 1, "Y");
+                db.updateRow(id, "Y");
                 //((TextView) findViewById(R.id.testView)).setText(String.valueOf(index.getPosition()));
                 break;
             case R.id.radioButtonNo:
-                db.updateRow(index.getPosition() + 1, "N");
+                db.updateRow(id, "N");
                 break;
             case R.id.radioButtonNA:
-                db.updateRow(index.getPosition() + 1, "NA");
+                db.updateRow(id, "NA");
                 break;
             default:
                 //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
@@ -183,10 +184,12 @@ public class QuestionActivity extends AppCompatActivity {
     ***************************************************/
     private void displayQuestion(){
         //display current question
-        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + index.getString(1));
+        String questionText = index.getString(db.COL_QUESTION_TEXT);
+        Cursor updatedC = db.getRow(questionText);
+        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + questionText);
 
         //display saved answer, if any
-        switch(index.getString(2)){
+        switch(updatedC.getString(db.COL_QUESTION_ANSWER)){
             case "Y":
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonYes);
                 break;

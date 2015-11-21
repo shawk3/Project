@@ -16,6 +16,7 @@ import java.util.Set;
  */
 public class DataBaseCreator {
     HashMap<String, String> questions = new HashMap<String, String>();
+    HashMap<String, String> sectors = new HashMap<>();
     Context context;
     DataBase dataBase;
 
@@ -36,9 +37,17 @@ public class DataBaseCreator {
             dataBase.insertRow(s, questions.get(s));
         }
 
-        Cursor c = dataBase.getRow("First Question");
-        long id = c.getInt(dataBase.COL_ROWID);
         //dataBase.close();
+
+        String[] demographics = {"Chemical", "Commercial Facilities", "Communications",
+                "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
+                "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
+                "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
+                "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
+        for(int i = 0; i < demographics.length; i++){
+            dataBase.insertDRow(demographics[i], "Sub-Sector 1");
+            dataBase.insertDRow(demographics[i], "Sub-Sector 2");
+        }
     }
 
     private void upload() {
@@ -51,6 +60,7 @@ public class DataBaseCreator {
         questions.put("One more Question with a lot of text, text, text text! And here is some more text.. Hi.  Some more", "U");
         questions.put("Last Question", "U");
 
+        sectors.put("","");
 
     }
 }

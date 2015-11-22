@@ -1,5 +1,6 @@
 package edu.byui.cs246.project;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,26 +8,34 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.support.v7.app.ActionBar;
 
 import org.w3c.dom.Text;
 
 public class QuestionActivity extends AppCompatActivity {
-    //long index;
+    private static final String TAG = QuestionActivity.class.getSimpleName();
     Cursor index;
-    //long max;
     DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getApplicationInfo().targetSdkVersion = 14;                 // To disable the 3-dot menu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle("Questions");
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +47,37 @@ public class QuestionActivity extends AppCompatActivity {
         this.retieveQuestions();
         this.displayQuestion();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        menu.findItem(R.id.action_questions).setEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_main:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                break;
+            case R.id.action_demographics:
+                startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
+                break;
+            case R.id.action_questions:
+                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
+                break;
+            case R.id.action_analysis:
+                startActivity(new Intent(getApplicationContext(), Analysis.class));
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
     /***************************************************
      * Retieve Questions
      * -Retieves Question set from its source.
@@ -45,14 +85,19 @@ public class QuestionActivity extends AppCompatActivity {
     private void retieveQuestions(){
         db = new DataBase (this);
         db.open();
-        db.deleteAll();
-        db.insertRow("What is your name?", "U");
-        db.insertRow("What is your quest?", "U");
-        db.insertRow("What is the airspeed velocity of a swallow?", "U");
-        //db.updateRow(1, "WHat is your name?", "Y");
-        //db.updateRow(2, "Y");
-        //db.updateRow(3, "Y");
+        //db.deleteAll();
+        //db.insertRow("What is your name?", "U");
+        //db.insertRow("What is your quest?", "U");
+        //db.insertRow("What is the airspeed velocity of a swallow?", "U");
         index = db.getAllRows();
+
+        //basic logging code
+        if(index.moveToFirst()) {
+            Log.i(TAG, "Successfully pulled from data base.");
+        }
+        else{
+            Log.e(TAG, "Did not pull from data base.");
+        }
     }
 
     /***************************************************
@@ -116,16 +161,17 @@ public class QuestionActivity extends AppCompatActivity {
     ***************************************************/
     private void saveAnswer(){
         //detect which radio button is pressed and save the corresponding answer
+        int id = db.getRow(index.getString(db.COL_QUESTION_TEXT)).getInt(db.COL_ROWID);
         switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
             case R.id.radioButtonYes:
-                db.updateRow(index.getPosition() + 1, "Y");
+                db.updateRow(id, "Y");
                 //((TextView) findViewById(R.id.testView)).setText(String.valueOf(index.getPosition()));
                 break;
             case R.id.radioButtonNo:
-                db.updateRow(index.getPosition() + 1, "N");
+                db.updateRow(id, "N");
                 break;
             case R.id.radioButtonNA:
-                db.updateRow(index.getPosition() + 1, "NA");
+                db.updateRow(id, "NA");
                 break;
             default:
                 //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
@@ -139,10 +185,12 @@ public class QuestionActivity extends AppCompatActivity {
     ***************************************************/
     private void displayQuestion(){
         //display current question
-        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + index.getString(1));
+        String questionText = index.getString(db.COL_QUESTION_TEXT);
+        Cursor updatedC = db.getRow(questionText);
+        ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + questionText);
 
         //display saved answer, if any
-        switch(index.getString(2)){
+        switch(updatedC.getString(db.COL_QUESTION_ANSWER)){
             case "Y":
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonYes);
                 break;
@@ -157,6 +205,7 @@ public class QuestionActivity extends AppCompatActivity {
                 break;
         }
 
+
         //set prev/next button apearance
         if(!index.isFirst())
             ((TextView) findViewById(R.id.prevText)).setText("<prev");
@@ -169,6 +218,7 @@ public class QuestionActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.nextText)).setText("Finish");
 
         //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
+        Log.i(TAG, "The current quetion is \"" + index.getString(1) + "\".");
     }
 
 

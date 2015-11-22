@@ -24,18 +24,40 @@
     <LinearLayout
         android:id="@+id/lchart"
         android:gravity = "bottom"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="10dp"
         android:layout_above="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/key"
+        android:gravity = "bottom"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
 
     <View
         android:id="@+id/view"
-        android:background="#00FF00"
+        android:background="#1422e5"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@id/key"
+        android:layout_marginBottom="20dp" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Number of Questions for each Answer"
+        android:id="@+id/title.t"
+        android:layout_below="@+id/Title.t"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

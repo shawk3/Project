@@ -187,6 +187,21 @@ public class DataBase {
         return c;
     }
 
+    //Adam's version
+    public boolean roughUpdateRow(Cursor toRow, String answer){
+        //get data from row
+        long rowId = toRow.getPosition();
+        String question = toRow.getString(1);
+
+        //delete row
+        deleteRow(rowId);
+
+        //make new row
+        insertRow(question, answer);
+
+        return true;
+    }
+
 
 
 

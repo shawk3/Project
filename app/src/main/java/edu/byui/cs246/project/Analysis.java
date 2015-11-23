@@ -11,10 +11,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class Analysis extends AppCompatActivity {
 
     LinearLayout la;
+    LinearLayout key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public class Analysis extends AppCompatActivity {
         getSupportActionBar().setTitle("Analysis");
 
         la = (LinearLayout)findViewById(R.id.lchart);
+        key = (LinearLayout)findViewById(R.id.key);
 
         int color[] = {Color.GREEN,Color.RED,Color.YELLOW, Color.BLUE};
 
@@ -35,6 +40,8 @@ public class Analysis extends AppCompatActivity {
 
             drawChart(1,color[j],height[j]);
         }
+
+        drawKey();
     }
 
     private int[] getHeights() {
@@ -47,16 +54,16 @@ public class Analysis extends AppCompatActivity {
                 String ans = c.getString(db.COL_QUESTION_ANSWER);
                 switch (ans) {
                     case "Y":
-                        heights[0] += 100;
+                        heights[0] += 1;
                         break;
                     case "N":
-                        heights[1] += 100;
+                        heights[1] += 1;
                         break;
                     case "NA":
-                        heights[2] += 100;
+                        heights[2] += 1;
                         break;
                     default:
-                        heights[3] += 100;
+                        heights[3] += 1;
                 }
             }while(c.moveToNext());
         }
@@ -95,18 +102,57 @@ public class Analysis extends AppCompatActivity {
     }
 
     private void drawChart(int count, int color, int height) {
-        System.out.println(count+color+height);
+        //System.out.println(count+color+height);
         //color = Color.BLUE;
 
         View view = new View(this);
         view.setBackgroundColor(color);
-        view.setLayoutParams(new LinearLayout.LayoutParams(30, height));
+        view.setLayoutParams(new LinearLayout.LayoutParams(100, height*100));
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
 
-        params.setMargins(3,0,0,0);
+        params.setMargins(90,0,0,0);
         view.setLayoutParams(params);
 
         la.addView(view);
+    }
+
+    private void drawKey(){
+        key.addView(smallView(Color.GREEN));
+        key.addView(textKey("Yes", 100));
+        key.addView(smallView(Color.RED));
+        key.addView(textKey("No", 75));
+        key.addView(smallView(Color.YELLOW));
+        key.addView((textKey("N/A", 100)));
+        key.addView(smallView(Color.BLUE));
+        key.addView(textKey("UnAnswered", 250));
+
+
+    }
+
+    private TextView textKey(String text, int size){
+        TextView view = new TextView(this);
+        view.setText(text);
+
+        view.setLayoutParams(new LinearLayout.LayoutParams(size, 50));
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
+        params.setMargins(30, 0, 10, 0);
+        view.setLayoutParams(params);
+
+
+
+        return view;
+    }
+
+    private View smallView(int color){
+        View view = new View(this);
+        view.setLayoutParams(new LinearLayout.LayoutParams(20, 20));
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
+        params.setMargins(30, 0, 0, 10);
+        view.setLayoutParams(params);
+
+        view.setBackgroundColor(color);
+
+        return view;
     }
 }

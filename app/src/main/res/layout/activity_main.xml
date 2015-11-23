@@ -24,7 +24,7 @@
         android:enabled="true"
         android:onClick="clickLoad"
         android:layout_below="@+id/my_toolbar"
-        android:layout_alignStart="@+id/new.b" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -34,59 +34,8 @@
         android:clickable="true"
         android:enabled="true"
         android:onClick="clickNew"
-        android:layout_below="@+id/quit.b"
-        android:layout_toStartOf="@+id/create.b"
-        android:layout_marginEnd="46dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quit"
-        android:id="@+id/quit.b"
-        android:layout_below="@+id/load.b"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="61dp"
-        android:clickable="true"
-        android:enabled="true"
-        android:onClick="clickQuit" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Demographics"
-        android:id="@+id/demographics.b"
-        android:layout_below="@+id/new.b"
-        android:layout_toStartOf="@+id/quit.b"
-        android:layout_marginTop="76dp"
-        android:visibility="invisible"
-        android:clickable="true"
-        android:enabled="true"
-        android:onClick="clickDemographics" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Questions"
-        android:id="@+id/questions.b"
-        android:layout_below="@+id/demographics.b"
-        android:layout_alignStart="@+id/demographics.b"
-        android:layout_marginTop="41dp"
-        android:visibility="invisible"
-        android:clickable="true"
-        android:enabled="true"
-        android:onClick="clickQuestions" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Analysis"
-        android:id="@+id/analysis.b"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/questions.b"
-        android:visibility="invisible"
-        android:enabled="true"
-        android:onClick="clickAnalysis"
-        android:clickable="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/load.b" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -94,9 +43,10 @@
         android:layout_height="wrap_content"
         android:text="createData"
         android:id="@+id/create.b"
-        android:layout_below="@+id/new.b"
-        android:layout_toEndOf="@+id/analysis.b"
         android:clickable="true"
         android:enabled="true"
-        android:onClick="clickCreateDataBase" />
+        android:onClick="clickCreateDataBase"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

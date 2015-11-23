@@ -59,6 +59,10 @@ public class QuestionActivity extends AppCompatActivity {
 
 
     public boolean onOptionsItemSelected (MenuItem item) {
+        //save current answer beforepage switch
+        saveAnswer();
+
+        //switch to the appropriate page
         switch(item.getItemId()) {
             case R.id.action_main:
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -85,10 +89,6 @@ public class QuestionActivity extends AppCompatActivity {
     private void retieveQuestions(){
         db = new DataBase (this);
         db.open();
-        //db.deleteAll();
-        //db.insertRow("What is your name?", "U");
-        //db.insertRow("What is your quest?", "U");
-        //db.insertRow("What is the airspeed velocity of a swallow?", "U");
         index = db.getAllRows();
 
         //basic logging code
@@ -136,15 +136,13 @@ public class QuestionActivity extends AppCompatActivity {
      *  question.
     ***************************************************/
     private void nextQuestion(){
-        if (!index.isLast()) {
             saveAnswer();
+        if (!index.isLast()) {
             index.moveToNext();
             displayQuestion();
         }
         else
-            ;
-
-
+            startActivity(new Intent(getApplicationContext(), Analysis.class));
     }
 
     /***************************************************
@@ -174,7 +172,6 @@ public class QuestionActivity extends AppCompatActivity {
                 db.updateRow(id, "NA");
                 break;
             default:
-                //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
         }
 
     }
@@ -217,7 +214,6 @@ public class QuestionActivity extends AppCompatActivity {
         else
             ((TextView) findViewById(R.id.nextText)).setText("Finish");
 
-        //((TextView) findViewById(R.id.testView)).setText(index.getString(2));
         Log.i(TAG, "The current quetion is \"" + index.getString(1) + "\".");
     }
 

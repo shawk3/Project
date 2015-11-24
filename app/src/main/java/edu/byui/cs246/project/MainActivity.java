@@ -62,11 +62,15 @@ public class MainActivity extends AppCompatActivity {
     public void clickLoad(View v){
         //remain on page, enable options
 
-
+        //load questions from a previous session
+        //might save the previous session as a shared preference
     }
 
     public void clickNew(View v){
         //go to a new page
+
+        //create a new row in session id table
+        //
     }
 
 

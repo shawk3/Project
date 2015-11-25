@@ -89,7 +89,7 @@ public class QuestionActivity extends AppCompatActivity {
     private void retieveQuestions(){
         db = new DataBase (this);
         db.open();
-        index = db.getAllRows();
+        index = db.getAllRows(db.QTABLE);
 
         //basic logging code
         if(index.moveToFirst()) {
@@ -159,17 +159,18 @@ public class QuestionActivity extends AppCompatActivity {
     ***************************************************/
     private void saveAnswer(){
         //detect which radio button is pressed and save the corresponding answer
-        int id = db.getRow(index.getString(db.COL_QUESTION_TEXT)).getInt(db.COL_ROWID);
+        int Qid = index.getInt(db.COL_ROWID);
+        //int id = db.getRow(db.QTABLE,index.getString(db.COL_QUESTION_TEXT)).getInt(db.COL_ROWID);
         switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
             case R.id.radioButtonYes:
-                db.updateRow(id, "Y");
+                db.insertAnswer(Qid, Qid, "Y");
                 //((TextView) findViewById(R.id.testView)).setText(String.valueOf(index.getPosition()));
                 break;
             case R.id.radioButtonNo:
-                db.updateRow(id, "N");
+                db.insertAnswer(Qid, Qid, "N");
                 break;
             case R.id.radioButtonNA:
-                db.updateRow(id, "NA");
+                db.insertAnswer(Qid, Qid, "NA");
                 break;
             default:
         }
@@ -183,7 +184,7 @@ public class QuestionActivity extends AppCompatActivity {
     private void displayQuestion(){
         //display current question
         String questionText = index.getString(db.COL_QUESTION_TEXT);
-        Cursor updatedC = db.getRow(questionText);
+        Cursor updatedC = db.getRow(db.QTABLE, questionText);
         ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + questionText);
 
         //display saved answer, if any

@@ -48,7 +48,7 @@ public class Analysis extends AppCompatActivity {
         int heights[] = new int[4];
         DataBase db = new DataBase(this);
         db.open();
-        Cursor c = db.getAllRows();
+        Cursor c = db.getAllRows(db.ATABLE);
         if(c.moveToFirst()){
             do {
                 String ans = c.getString(db.COL_QUESTION_ANSWER);

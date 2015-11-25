@@ -7,11 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.test.InstrumentationTestCase;
 
+import java.util.HashMap;
+
 /**
  * Created by Kyle on 10/31/2015.
  * .b  .t  .v
  */
 public class DataBase {
+    HashMap<String, String[]> tables = new HashMap<>();
     public static final String DBNAME = "myDB";
     public static final String MTABLE = "mainTable";
     public static final String QTABLE = "QuestionTable";
@@ -22,7 +25,7 @@ public class DataBase {
     public static final String SESSION_TABLE = "STable";
     public static final int VERSION = 3;
 
-    //Any table
+    //All Tables
     public static final String Key_ROWID = "id";
     public static final int COL_ROWID = 0;
 
@@ -42,15 +45,16 @@ public class DataBase {
     public static final String Key_QID = "QId";
     public static final String Key_SID = "SessionID";
     public static final String Key_QUESTION_ANSWER = "Answer";
-    public static final int COL_QUESTION_ID = 0;
-    public static final int Col_Session_ID = 1;
-    public static final int COL_QUESTION_ANSWER = 2;
+    public static final int COL_QUESTION_ID = 1;
+    public static final int Col_Session_ID = 2;
+    public static final int COL_QUESTION_ANSWER = 3;
 
-    public static final String[] ALL_Answer_KEYS = new String[] {Key_QID, Key_SID, Key_QUESTION_ANSWER};
+    public static final String[] ALL_Answer_KEYS = new String[] {Key_ROWID, Key_QID, Key_SID, Key_QUESTION_ANSWER};
 
     private static final String CREATE_ATable = "create table if not exists" + ATABLE
-            + " (" + Key_QID + " integer not null, "
-            + " (" + Key_SID + " integer not null, "
+            + " (" + Key_ROWID + " integer primary key autoincrement, "
+            + Key_QID + " integer not null, "
+            + Key_SID + " integer not null, "
             + Key_QUESTION_ANSWER + " text not null"
             + ");";
 
@@ -118,6 +122,12 @@ public class DataBase {
     public DataBase(Context ctx){
         this.context = ctx;
         myDBHelper = new DataBaseHelper(context);
+        tables.put(ATABLE, ALL_Answer_KEYS);
+        tables.put(QTABLE, ALL_QUESTION_KEYS);
+        tables.put(SESSION_TABLE, ALL_SESSION_KEYS);
+        tables.put(SECTOR_TABLE, ALL_SECTOR_KEYS);
+        tables.put(SUB_SECTOR_TABLE, ALL_SUB_SECTOR_KEYS);
+        tables.put(SECTOR_SUB_SECTOR_TABLE, ALL_SECTOR_SUBSECTOR_KEYS);
     }
 
     public DataBase open(){
@@ -129,9 +139,10 @@ public class DataBase {
         myDBHelper.close();
     }
 
-    //General insert, currently can only be used for QTable, and the two Sector tables
-    public long insertRow(String table, String columnName, String text){
+    //General insert, Only works with tables that have an Int id and a String column
+    public long insertRow(String table, String text){
         ContentValues initialValues = new ContentValues();
+        String columnName = tables.get(table)[1];
         initialValues.put(columnName, text);
 
         return db.insert(table, null, initialValues);
@@ -140,11 +151,20 @@ public class DataBase {
     //insert a row on the Answer Table
     public long insertAnswer(int Sid, int QID, String ans){
         ContentValues initialValues = new ContentValues();
-        initialValues.put(Key_QID, QID);
-        initialValues.put(Key_SID, Sid);
-        initialValues.put(Key_QUESTION_ANSWER, ans);
+        Cursor c = getAnswer(Sid, QID);
+        if(c == null){
+            initialValues.put(Key_QID, QID);
+            initialValues.put(Key_SID, Sid);
+            initialValues.put(Key_QUESTION_ANSWER, ans);
 
-        return db.insert(ATABLE, null, initialValues);
+            return db.insert(ATABLE, null, initialValues);
+        }
+        else{
+            updateAnswer(Sid, QID, ans);
+            return c.getInt(COL_QUESTION_ID);
+        }
+
+
     }
 
     //insert a row to the Session Table
@@ -180,7 +200,7 @@ public class DataBase {
         return db.delete(ATABLE, where, null) > 0;
     }
 
-
+    //works with all tables
     public void deleteAll(String table){
         Cursor c = getAllRows(table);
         long rowId = c.getColumnIndexOrThrow(Key_ROWID);
@@ -192,34 +212,51 @@ public class DataBase {
         c.close();
     }
 
+    //Works for all tables
     public Cursor getAllRows(String table){
-        //Cursor c = db.query(true, table, ALL_QUESTION_KEYS, null, null, null, null, null, null);
-        Cursor c = db.query(true, table, null, null, null, null, null, null, null);
+        String keys[] = tables.get(table);
+        Cursor c = db.query(true, table, keys, null, null, null, null, null, null);
         if(c != null){
             c.moveToFirst();
         }
         return c;
     }
 
+    //Works with all tables except Answer, and Sector-SubSector
     public Cursor getRow(String table, long rowId){
         String where = Key_ROWID + " = " + rowId;
-        //Cursor c = db.query(true, table, ALL_QUESTION_KEYS, where, null, null, null, null, null);
-        Cursor c = db.query(true, table, null, where, null, null, null, null, null);
+        String keys[] = tables.get(table);
+        Cursor c = db.query(true, table, keys , where, null, null, null, null, null);
         if(c != null){
             c.moveToFirst();
         }
         return c;
     }
 
-    public Cursor getQuestionID(String questionText){
-        String where = Key_QUESTION_TEXT + " = '" + questionText + "'";
-        Cursor c = db.query(true, QTABLE, ALL_QUESTION_KEYS, where, null, null, null, null, null);
+    public Cursor getRow(String table, String text){
+        String keys[] = tables.get(table);
+        String columnName = keys[1];
+        String where = columnName + " = '" + text + "'";
+
+        Cursor c = db.query(true, table, keys, where, null, null, null, null, null);
         if(c != null){
             c.moveToFirst();
         }
         return c;
     }
 
+    public Cursor getAnswer(int qID, int sID){
+        String where = Key_QID + " = " + qID;
+        //where += Key_SessionID + " = " + sID;
+        Cursor c = db.query(true, ATABLE, ALL_Answer_KEYS , where, null, null, null, null, null);
+        if(c != null){
+            c.moveToFirst();
+        }
+        return c;
+    }
+    
+
+    /*
     public boolean updateRow(long rowId, String text, String Answer){
         String where = Key_ROWID + " = " + rowId;
         ContentValues  newValues = new ContentValues();
@@ -227,14 +264,26 @@ public class DataBase {
         newValues.put(Key_QUESTION_ANSWER, Answer);
 
         return db.update(QTABLE, newValues, where, null) > 0;
+    }*/
+
+    public boolean updateAnswer(long qID, long sID, String ans){
+        String where = Key_QID + " = " + qID;
+        //where += Key_SessionID + " = " + sID;
+        ContentValues  newValues = new ContentValues();
+        newValues.put(Key_QUESTION_ANSWER, ans);
+
+        return db.update(ATABLE, newValues, where, null) > 0;
     }
 
-    public boolean updateRow(long rowId, String Answer){
+    public boolean updateSession(long rowId, String date, long sectorSubSectorID){
         String where = Key_ROWID + " = " + rowId;
-        ContentValues  newValues = new ContentValues();
-        newValues.put(Key_QUESTION_ANSWER, Answer);
 
-        return db.update(QTABLE, newValues, where, null) > 0;
+        ContentValues newValues = new ContentValues();
+
+        newValues.put(Key_Date, date);
+        newValues.put(Key_SECTOR_SUBSECTOR_ID, sectorSubSectorID);
+
+        return db.update(SESSION_TABLE, newValues, where, null) > 0;
     }
 
 

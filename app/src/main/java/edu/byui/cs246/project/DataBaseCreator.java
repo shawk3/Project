@@ -62,8 +62,8 @@ public class DataBaseCreator {
 
         //dataBase.deleteAll();
 
-        //createQuestions();
-        //createSectors();
+        createQuestions();
+        createSectors();
         createSubSectors();
         createSectorSubSectorMap();
         createSessions();

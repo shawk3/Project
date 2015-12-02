@@ -258,6 +258,18 @@ public class DataBase {
         return c;
     }
 
+    public Cursor getAllAnswers(int sID) {
+        String where = Key_SID + " = " + sID;
+
+        Cursor c = db.query(true, ATABLE, ALL_Answer_KEYS , where, null, null, null, null, null);
+        if(c != null){
+            c.moveToFirst();
+        }
+        if(c.getCount() == 0)
+            return null;
+        return c;
+    }
+
 
     /*
     public boolean updateRow(long rowId, String text, String Answer){
@@ -288,6 +300,7 @@ public class DataBase {
 
         return db.update(SESSION_TABLE, newValues, where, null) > 0;
     }
+
 
 
 

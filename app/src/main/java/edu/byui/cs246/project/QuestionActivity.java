@@ -1,6 +1,7 @@
 package edu.byui.cs246.project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +25,9 @@ public class QuestionActivity extends AppCompatActivity {
     private static final String TAG = QuestionActivity.class.getSimpleName();
     Cursor index;
     DataBase db;
+    SharedPreferences settings;
+    int sessionID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,9 @@ public class QuestionActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Questions");
+        settings = getSharedPreferences("settingsFile", 0);
+        sessionID = settings.getInt("Session", 0);
+
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
         /*
@@ -89,7 +96,7 @@ public class QuestionActivity extends AppCompatActivity {
     private void retieveQuestions(){
         db = new DataBase (this);
         db.open();
-        index = db.getAllRows();
+        index = db.getAllRows(db.QTABLE);
 
         //basic logging code
         if(index.moveToFirst()) {
@@ -159,17 +166,18 @@ public class QuestionActivity extends AppCompatActivity {
     ***************************************************/
     private void saveAnswer(){
         //detect which radio button is pressed and save the corresponding answer
-        int id = db.getRow(index.getString(db.COL_QUESTION_TEXT)).getInt(db.COL_ROWID);
+        int Qid = index.getInt(db.COL_ROWID);
+        //int id = db.getRow(db.QTABLE,index.getString(db.COL_QUESTION_TEXT)).getInt(db.COL_ROWID);
         switch(((RadioGroup) findViewById(R.id.answerButtons)).getCheckedRadioButtonId()){
             case R.id.radioButtonYes:
-                db.updateRow(id, "Y");
+                db.insertAnswer(sessionID, Qid, "Y");
                 //((TextView) findViewById(R.id.testView)).setText(String.valueOf(index.getPosition()));
                 break;
             case R.id.radioButtonNo:
-                db.updateRow(id, "N");
+                db.insertAnswer(sessionID, Qid, "N");
                 break;
             case R.id.radioButtonNA:
-                db.updateRow(id, "NA");
+                db.insertAnswer(sessionID, Qid, "NA");
                 break;
             default:
         }
@@ -183,11 +191,17 @@ public class QuestionActivity extends AppCompatActivity {
     private void displayQuestion(){
         //display current question
         String questionText = index.getString(db.COL_QUESTION_TEXT);
-        Cursor updatedC = db.getRow(questionText);
+        Cursor updatedC = db.getRow(db.QTABLE, questionText);
         ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + questionText);
+        Cursor a = db.getAnswer(updatedC.getInt(db.COL_ROWID), sessionID);
 
+        String ans;
+        if(a == null)
+            ans = "U";
+        else
+            ans = a.getString(db.COL_QUESTION_ANSWER);
         //display saved answer, if any
-        switch(updatedC.getString(db.COL_QUESTION_ANSWER)){
+        switch(ans){
             case "Y":
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonYes);
                 break;

@@ -60,4 +60,14 @@
         android:layout_below="@+id/Title.t"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Percent"
+        android:id="@+id/percentText"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/title.t"
+        android:layout_toEndOf="@+id/Title.t" />
+
 </RelativeLayout>

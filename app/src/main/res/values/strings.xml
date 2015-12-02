@@ -2,4 +2,32 @@
     <string name="app_name">Project</string>
     <string name="title_activity_question">QuestionActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_settings">settings</string>
+    <string name="action_demographics">sector</string>
+    <string name="action_analysis">analysis</string>
+    <string name="action_questions">questions</string>
+    <string name="action_main">main</string>
+
+    <string-array name="Demographics">
+        <item>Chemical</item>
+        <item>Commercial Facilities</item>
+        <item>Communications</item>
+        <item>Critical Manufacturing</item>
+        <item>Dams</item>
+        <item>Defence Industrial Base</item>
+        <item>Emergency Services</item>
+        <item>Energy</item>
+        <item>Financial Services</item>
+        <item>Food and Agriculture</item>
+        <item>Government Facilities</item>
+        <item>Healthcare and Public Health</item>
+        <item>Information Technology</item>
+        <item>Nuclear Reactors, Materials, and Waste</item>
+        <item>Sector-Specific Agencies</item>
+        <item>Transportation Systems</item>
+        <item>Water and Wastewater Systems</item>
+    </string-array>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

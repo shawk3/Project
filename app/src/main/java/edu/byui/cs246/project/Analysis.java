@@ -1,6 +1,7 @@
 package edu.byui.cs246.project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,8 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class Analysis extends AppCompatActivity {
-
+    SharedPreferences settings;
+    int sessionID;
     LinearLayout la;
     LinearLayout key;
 
@@ -28,6 +30,8 @@ public class Analysis extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Analysis");
+        settings = getSharedPreferences("settingsFile", 0);
+        sessionID = settings.getInt("Session", 0);
 
         la = (LinearLayout)findViewById(R.id.lchart);
         key = (LinearLayout)findViewById(R.id.key);
@@ -42,13 +46,14 @@ public class Analysis extends AppCompatActivity {
         }
 
         drawKey();
+        drawPercent(height);
     }
 
     private int[] getHeights() {
         int heights[] = new int[4];
         DataBase db = new DataBase(this);
         db.open();
-        Cursor c = db.getAllRows();
+        Cursor c = db.getAllAnswers(sessionID);
         if(c.moveToFirst()){
             do {
                 String ans = c.getString(db.COL_QUESTION_ANSWER);
@@ -128,6 +133,25 @@ public class Analysis extends AppCompatActivity {
         key.addView(textKey("UnAnswered", 250));
 
 
+    }
+
+
+    private void drawPercent(int height[]) {
+        int percent;
+        if((height[0] + height[1]) > 0)
+            percent = (100 * height[0]) / (height[0] + height[1]);
+        else
+            percent = 0;
+        TextView percentText = (TextView) findViewById(R.id.percentText);
+
+        if (percent >= 85)
+            percentText.setTextColor(Color.GREEN);
+        else if (percent >= 70)
+            percentText.setTextColor(Color.YELLOW);
+        else
+            percentText.setTextColor(Color.RED);
+
+        percentText.setText(String.valueOf(percent) + " %");
     }
 
     private TextView textKey(String text, int size){

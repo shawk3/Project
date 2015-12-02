@@ -3,6 +3,7 @@ package edu.byui.cs246.project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,8 @@ import static java.lang.System.exit;
 
 public class MainActivity extends AppCompatActivity {
     DataBase db;
+    SharedPreferences settings;
+    int session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Main");
 
-        startActivity(new Intent(getApplicationContext(), QuestionActivity.class));//TEST CODE
+        settings = getSharedPreferences("settingsFile", 0);
+        session = settings.getInt("Session", 0);
+        db = new DataBase(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,20 +65,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickLoad(View v){
-        //remain on page, enable options
 
+        startActivity(new Intent(getApplicationContext(), loadScreen.class));
 
-        showOtherOptions();
+        //if the session = 0
+
+        //open the database and list the sessions out
+
+        //when they click on an option save that as a preference
     }
 
     public void clickNew(View v){
-        //go to a new page
-        showOtherOptions();
+        //create a new session
+        //go to the demographics page
+        SharedPreferences.Editor edit = settings.edit();
+        edit.putInt("Session", 0);
+        edit.commit();
+        //db.insertSession("Name", "today", 1, 1);
+        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
+
     }
 
-    public void clickQuit(View v){
-        exit(1);
-    }
 
     // Only used to create database
     public void clickCreateDataBase(View v){
@@ -80,29 +93,12 @@ public class MainActivity extends AppCompatActivity {
         creator.create();
     }
 
-    private void showOtherOptions(){
-        Button a = (Button) findViewById(R.id.demographics_b);
-        a.setVisibility(View.VISIBLE);
-        Button b = (Button) findViewById(R.id.questions_b);
-        b.setVisibility(View.VISIBLE);
-        Button c = (Button) findViewById(R.id.analysis_b);
-        c.setVisibility(View.VISIBLE);
-    }
+
+
+
 
     public DataBase getDataBase(){
         return db;
-    }
-
-    public void clickAnalysis(View v){
-        startActivity(new Intent(getApplicationContext(), Analysis.class));//TEST CODE
-    }
-
-    public void clickQuestions(View v){
-        startActivity(new Intent(getApplicationContext(), QuestionActivity.class));//TEST CODE
-    }
-
-    public void clickDemographics(View v){
-        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
     }
 
 }

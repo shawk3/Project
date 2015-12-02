@@ -64,9 +64,9 @@ public class DataBaseCreator {
 
         //createQuestions();
         //createSectors();
-        //createSubSectors();
-        //createSectorSubSectorMap();
-        createSession();
+        createSubSectors();
+        createSectorSubSectorMap();
+        createSessions();
         //dataBase.close();
 
 
@@ -88,17 +88,24 @@ public class DataBaseCreator {
 
     private void createSubSectors(){
         for(int i = 0; i < subSectors.length; i++)
-            dataBase.insertRow(dataBase.SECTOR_TABLE, subSectors[i]);
+            dataBase.insertRow(dataBase.SUB_SECTOR_TABLE, subSectors[i]);
     }
 
     private void createSectorSubSectorMap(){
 
+        int sectorID;
+        int subID;
 
+        Cursor sect;
+        Cursor sub;
 
-        Cursor c = dataBase.getAllRows(dataBase.SUB_SECTOR_TABLE);
-        int sectorID = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[0]).getInt(dataBase.COL_ROWID);
-        int subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]).getInt(dataBase.COL_ROWID);
+        sect = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[0]);
+        sectorID = sect.getInt(dataBase.COL_ROWID);
+        sub = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]);
+        subID = sub.getInt(dataBase.COL_ROWID);
+
         dataBase.insertSectorSubSector(sectorID, subID);
+
         subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[1]).getInt(dataBase.COL_ROWID);
         dataBase.insertSectorSubSector(sectorID, subID);
 
@@ -110,7 +117,8 @@ public class DataBaseCreator {
 
     }
 
-    private void createSession(){
-        dataBase.insertSession("Test Assessment", "today", 1, 1);
+    private void createSessions(){
+        dataBase.insertSession("Test Assessment", "today", 1);
+        dataBase.insertSession("Test Assessment 2", "yesterday", 1);
     }
 }

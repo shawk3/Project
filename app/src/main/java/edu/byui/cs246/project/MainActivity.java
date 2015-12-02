@@ -93,9 +93,7 @@ public class MainActivity extends AppCompatActivity {
         creator.create();
     }
 
-    public void setSession(int sess){
 
-    }
 
 
 

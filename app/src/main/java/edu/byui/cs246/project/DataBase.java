@@ -168,13 +168,13 @@ public class DataBase {
     }
 
     //insert a row to the Session Table
-    public long insertSession(String name, String date, int sectorID, int subSectorID){
+    public long insertSession(String name, String date, int sectorSubSectorID){
         ContentValues initialValues = new ContentValues();
         initialValues.put(Key_SESSION_NAME, name);
         initialValues.put(Key_Date, date);
         //initialValues.put(Key_SECTOR_ID, sectorID);
         //initialValues.put(Key_Sub_Sector_ID, subSectorID);
-        initialValues.put(Key_SECTOR_SUBSECTOR_ID, sectorID);
+        initialValues.put(Key_SECTOR_SUBSECTOR_ID, sectorSubSectorID);
 
         return db.insert(SESSION_TABLE, null, initialValues);
     }

@@ -17,13 +17,13 @@ public class DataBase {
     HashMap<String, String[]> tables = new HashMap<>();
     public static final String DBNAME = "myDB";
     public static final String MTABLE = "mainTable";
-    public static final String QTABLE = "QuestionTable";
+    public static final String QTABLE = "QuestionsTable";
     public static final String ATABLE = "AnsTable";
     public static final String SECTOR_TABLE = "SectorTable";
     public static final String SUB_SECTOR_TABLE = "SubSectorTable";
     public static final String SECTOR_SUB_SECTOR_TABLE = "SectorSubSectorTable";
     public static final String SESSION_TABLE = "STable";
-    public static final int VERSION = 3;
+    public static final int VERSION = 4;
 
     //All Tables
     public static final String Key_ROWID = "id";
@@ -35,9 +35,9 @@ public class DataBase {
 
     public static final String[] ALL_QUESTION_KEYS = new String[] {Key_ROWID, Key_QUESTION_TEXT};
 
-    private static final String CREATE_QTable = "create table if not exists" + QTABLE
+    private static final String CREATE_QTable = "create table if not exists " + QTABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
-            + Key_QUESTION_TEXT + " text not null, "
+            + Key_QUESTION_TEXT + " text not null"
             + ");";
 
 
@@ -51,7 +51,7 @@ public class DataBase {
 
     public static final String[] ALL_Answer_KEYS = new String[] {Key_ROWID, Key_QID, Key_SID, Key_QUESTION_ANSWER};
 
-    private static final String CREATE_ATable = "create table if not exists" + ATABLE
+    private static final String CREATE_ATable = "create table if not exists " + ATABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_QID + " integer not null, "
             + Key_SID + " integer not null, "
@@ -64,9 +64,9 @@ public class DataBase {
 
     public static final String[] ALL_SECTOR_KEYS = new String[] {Key_ROWID, Key_SECTOR};
 
-    private static final String CREATE_SECTOR_Table = "create table if not exists" + SECTOR_TABLE
+    private static final String CREATE_SECTOR_Table = "create table if not exists " + SECTOR_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
-            + Key_SECTOR + " text not null, "
+            + Key_SECTOR + " text not null"
             + ");";
 
     //sub-Sector Table
@@ -75,7 +75,7 @@ public class DataBase {
 
     public static final String[] ALL_SUB_SECTOR_KEYS = new String[] {Key_ROWID, Key_SUB_SECTOR};
 
-    private static final String CREATE_SUB_SECTOR_Table = "create table if not exists" + SUB_SECTOR_TABLE
+    private static final String CREATE_SUB_SECTOR_Table = "create table if not exists " + SUB_SECTOR_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_SUB_SECTOR + " text not null"
             + ");";
@@ -89,7 +89,7 @@ public class DataBase {
 
     public static final String[] ALL_SECTOR_SUBSECTOR_KEYS = new String[] {Key_ROWID, Key_SECTOR_ID, Key_Sub_Sector_ID};
 
-    private static final String CREATE_SECTOR_SUBSECTOR_Table = "create table if not exists" + SECTOR_SUB_SECTOR_TABLE
+    private static final String CREATE_SECTOR_SUBSECTOR_Table = "create table if not exists " + SECTOR_SUB_SECTOR_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_SECTOR_ID + " integer not null, "
             + Key_Sub_Sector_ID + " integer not null"
@@ -105,7 +105,7 @@ public class DataBase {
 
     public static final String[] ALL_SESSION_KEYS = new String[] {Key_ROWID, Key_SESSION_NAME, Key_Date, Key_SECTOR_SUBSECTOR_ID};
 
-    private static final String CREATE_SESSION_Table = "create table if not exists" + SESSION_TABLE
+    private static final String CREATE_SESSION_Table = "create table if not exists " + SESSION_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_SESSION_NAME + " text not null, "
             + Key_Date + " text not null, "
@@ -252,9 +252,11 @@ public class DataBase {
         if(c != null){
             c.moveToFirst();
         }
+        if(c.getCount() == 0)
+            return null;
         return c;
     }
-    
+
 
     /*
     public boolean updateRow(long rowId, String text, String Answer){
@@ -316,6 +318,12 @@ public class DataBase {
         public void onCreate(SQLiteDatabase db) {
 
             db.execSQL(CREATE_QTable);
+            db.execSQL(CREATE_ATable);
+            db.execSQL(CREATE_SECTOR_SUBSECTOR_Table);
+            db.execSQL(CREATE_SECTOR_Table);
+            db.execSQL(CREATE_SUB_SECTOR_Table);
+            db.execSQL(CREATE_SESSION_Table);
+
         }
 
         @Override

@@ -26,16 +26,34 @@ public class DataBaseCreator {
 
 
     String questions[] = new String[]{"Have all default passwords been changed?",
-            "Are all passwords at least 9 characters in length?",
+            "Are there policies and procedures concerning the generation and use of passwords?",
+            "Does the system uniquely identify and authenticate organizational users?",
+            "Does the system monitor and manage communications at the system boundary and at key internal boundaries within the system?",
+            "Are the number of access points to the system limited to allow for better monitoring of inbound and outbound network traffic?",
+            "Does the system deny network traffic by default and allow network traffic by exception?",
+            "Do you encrypt communication over all untrusted communication channels?",
+            "Are all factory default authentication credentials changed on system components and applications upon installation",
+            "Is wireless access to the system authorized, monitored, and managed?",
+            "Is there a thorough scan for unauthorized changes to software and information?",
+            "Does the system protect against or limit the effects of denial-of-service attacks based on a defined list of types of denial-of-service attacks?",
+            "Are malicious code protection mechanisms updated whenever new releases are available in accordance with configuration management policy and procedures?",
+            "Does the system prevent users from circumventing host-based malicious code protection capabilities?",
+            "Is there a capability to recover and reconstitute the system to a known secure state after a disruption, compromise, or failure?",
+            "Is the concept of least privilege used to accomplish assigned tasks?",
+            "Does the system automatically disable inactive accounts after a defined time period?",
+            "Does the system provide mechanisms to protect the authenticity of device-to-device communications sessions?",
+            "Is entry to the facility controlled by physical access devices and/or guards?",
+            "Does remote access to the network require authentication prior to system connection?",
     };
 
-    HashMap<String, String> sectors = new HashMap<>();
     Context context;
     DataBase dataBase;
 
     public DataBaseCreator(DataBase c){
         //context = c;
         dataBase = c;
+
+
     }
 
     public void create(){
@@ -44,6 +62,11 @@ public class DataBaseCreator {
 
         //dataBase.deleteAll();
 
+        //createQuestions();
+        //createSectors();
+        //createSubSectors();
+        //createSectorSubSectorMap();
+        createSession();
         //dataBase.close();
 
 
@@ -69,6 +92,9 @@ public class DataBaseCreator {
     }
 
     private void createSectorSubSectorMap(){
+
+
+
         Cursor c = dataBase.getAllRows(dataBase.SUB_SECTOR_TABLE);
         int sectorID = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[0]).getInt(dataBase.COL_ROWID);
         int subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]).getInt(dataBase.COL_ROWID);
@@ -82,5 +108,9 @@ public class DataBaseCreator {
         subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]).getInt(dataBase.COL_ROWID);
         dataBase.insertSectorSubSector(sectorID, subID);
 
+    }
+
+    private void createSession(){
+        dataBase.insertSession("Test Assessment", "today", 1, 1);
     }
 }

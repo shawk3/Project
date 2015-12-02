@@ -3,6 +3,7 @@ package edu.byui.cs246.project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,8 @@ import static java.lang.System.exit;
 
 public class MainActivity extends AppCompatActivity {
     DataBase db;
+    SharedPreferences settings;
+    int session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Main");
 
+        settings = getSharedPreferences("settingsFile", 0);
+        session = settings.getInt("Session", 0);
         db = new DataBase(this);
     }
 
@@ -60,17 +65,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickLoad(View v){
-        //remain on page, enable options
 
-        //load questions from a previous session
-        //might save the previous session as a shared preference
+        //if the session = 0
+
+        //open the database and list the sessions out
+
+        //when they click on an option save that as a preference
     }
 
     public void clickNew(View v){
-        //go to a new page
+        //create a new session
+        //go to the demographics page
+        SharedPreferences.Editor edit = settings.edit();
+        edit.putInt("Session", 0);
+        edit.commit();
+        //db.insertSession("Name", "today", 1, 1);
+        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
 
-        //create a new row in session id table
-        //
     }
 
 

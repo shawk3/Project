@@ -24,6 +24,7 @@ public class QuestionActivity extends AppCompatActivity {
     private static final String TAG = QuestionActivity.class.getSimpleName();
     Cursor index;
     DataBase db;
+    int sessionID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,9 +187,15 @@ public class QuestionActivity extends AppCompatActivity {
         String questionText = index.getString(db.COL_QUESTION_TEXT);
         Cursor updatedC = db.getRow(db.QTABLE, questionText);
         ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + questionText);
+        Cursor a = db.getAnswer(updatedC.getInt(db.COL_ROWID), sessionID);
 
+        String ans;
+        if(a == null)
+            ans = "U";
+        else
+            ans = a.getString(db.COL_QUESTION_ANSWER);
         //display saved answer, if any
-        switch(updatedC.getString(db.COL_QUESTION_ANSWER)){
+        switch(ans){
             case "Y":
                 ((RadioGroup) findViewById(R.id.answerButtons)).check(R.id.radioButtonYes);
                 break;

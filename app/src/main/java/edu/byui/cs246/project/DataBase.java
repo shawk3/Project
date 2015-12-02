@@ -197,7 +197,7 @@ public class DataBase {
     //Delete an Answer
     public boolean deleteAnswer(int qID, int sID){
         String where = Key_QID + " = " + qID;
-        //where += Key_SessionID + " = " + sID;
+        where += " AND " + Key_SID + " = " + sID;
         return db.delete(ATABLE, where, null) > 0;
     }
 
@@ -248,7 +248,7 @@ public class DataBase {
 
     public Cursor getAnswer(int qID, int sID){
         String where = Key_QID + " = " + qID;
-        //where += Key_SessionID + " = " + sID;
+        where += " AND " + Key_SID + " = " + sID;
         Cursor c = db.query(true, ATABLE, ALL_Answer_KEYS , where, null, null, null, null, null);
         if(c != null){
             c.moveToFirst();
@@ -271,7 +271,7 @@ public class DataBase {
 
     public boolean updateAnswer(long qID, long sID, String ans){
         String where = Key_QID + " = " + qID;
-        //where += Key_SessionID + " = " + sID;
+        where += " AND " + Key_SID + " = " + sID;
         ContentValues  newValues = new ContentValues();
         newValues.put(Key_QUESTION_ANSWER, ans);
 

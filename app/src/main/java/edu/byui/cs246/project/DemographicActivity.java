@@ -15,7 +15,7 @@ import org.w3c.dom.Text;
 
 public class DemographicActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    String[] demographics = {"Chemical and a few things to see how it works", "Commercial Facilities",
+    String[] demographics = {"Chemical", "Commercial Facilities",
             "Communications", "Critical Manufacturing", "Dams", "Defense Industrial Base",
             "Emergency Services", "Energy", "Financial Services", "Food and Agriculture",
             "Government Facilities", "Healthcare and Public Health", "Information Technology",
@@ -23,7 +23,7 @@ public class DemographicActivity extends AppCompatActivity implements AdapterVie
             "Water and Wastewater Systems"};
 
     ListView l;
-    EditText e; 
+    EditText e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

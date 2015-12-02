@@ -22,7 +22,24 @@ public class DataBaseCreator {
             "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
             "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
 
-    String[] subSectors = {"transportation", "distribution"};
+    String[] subSectors = {"Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer", "", "", "",
+                          "Entertainment and Media", "Gaming", "Lodging", "Outdoor Events", "Public Assembly", "Real Estate", "Retail", "Sports Leagues",
+                           "", "","", "", "", "", "", "",
+                          "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment", "", "", "", "",
+                          "", "","", "", "", "", "", "",
+                          "", "","", "", "", "", "", "",
+                           "Law Enforcement", "Fire and Emergency Services", "Emergency Management", "Emergency Medical Services", "Public Works", "","", "",
+                          "Electricity", "Petroleum", "Natural Gas", "","","","","",
+                         "", "","", "", "", "", "", "",
+                         "", "","", "", "", "", "", "",
+                         "Education Facilities", "National Monuments", "","","","","","",
+                         "", "","", "", "", "", "", "",
+                         "", "","", "", "", "", "", "",
+                         "", "","", "", "", "", "", "",
+                         "", "","", "", "", "", "", "",
+                         "Aviation", "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",
+                         "", "","", "", "", "", "", "",};
+
 
 
     String questions[] = new String[]{"Have all default passwords been changed?",

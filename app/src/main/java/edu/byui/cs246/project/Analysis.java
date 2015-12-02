@@ -42,6 +42,7 @@ public class Analysis extends AppCompatActivity {
         }
 
         drawKey();
+        drawPercent(height);
     }
 
     private int[] getHeights() {
@@ -128,6 +129,25 @@ public class Analysis extends AppCompatActivity {
         key.addView(textKey("UnAnswered", 250));
 
 
+    }
+
+
+    private void drawPercent(int height[]) {
+        int percent;
+        if((height[0] + height[1]) > 0)
+            percent = (100 * height[0]) / (height[0] + height[1]);
+        else
+            percent = 0;
+        TextView percentText = (TextView) findViewById(R.id.percentText);
+
+        if (percent >= 85)
+            percentText.setTextColor(Color.GREEN);
+        else if (percent >= 70)
+            percentText.setTextColor(Color.YELLOW);
+        else
+            percentText.setTextColor(Color.RED);
+
+        percentText.setText(String.valueOf(percent) + " %");
     }
 
     private TextView textKey(String text, int size){

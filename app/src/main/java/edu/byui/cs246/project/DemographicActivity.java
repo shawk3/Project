@@ -11,9 +11,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class DemographicActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    String[] demographics = {"Chemical", "Commercial Facilities",
+    String[] demographics = {"Chemical and a few things to see how it works", "Commercial Facilities",
             "Communications", "Critical Manufacturing", "Dams", "Defense Industrial Base",
             "Emergency Services", "Energy", "Financial Services", "Food and Agriculture",
             "Government Facilities", "Healthcare and Public Health", "Information Technology",
@@ -21,16 +23,16 @@ public class DemographicActivity extends AppCompatActivity implements AdapterVie
             "Water and Wastewater Systems"};
 
     ListView l;
-    EditText e;
+    EditText e; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demographic);
-        l = (ListView) findViewById(R.id.listView);
+        l = (ListView) findViewById(R.id.view);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, demographics);
         l.setAdapter(adapter);
-        e = (EditText) findViewById(R.id.editText);
+        e = (EditText) findViewById(R.id.text);
         l.setOnItemClickListener(this);
     }
 

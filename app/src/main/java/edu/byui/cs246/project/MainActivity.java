@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickLoad(View v){
 
+        startActivity(new Intent(getApplicationContext(), loadScreen.class));
+
         //if the session = 0
 
         //open the database and list the sessions out
@@ -89,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
     public void clickCreateDataBase(View v){
         DataBaseCreator creator = new DataBaseCreator(db);
         creator.create();
+    }
+
+    public void setSession(int sess){
+
     }
 
 

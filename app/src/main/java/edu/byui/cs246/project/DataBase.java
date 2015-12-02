@@ -172,8 +172,9 @@ public class DataBase {
         ContentValues initialValues = new ContentValues();
         initialValues.put(Key_SESSION_NAME, name);
         initialValues.put(Key_Date, date);
-        initialValues.put(Key_SECTOR_ID, sectorID);
-        initialValues.put(Key_Sub_Sector_ID, subSectorID);
+        //initialValues.put(Key_SECTOR_ID, sectorID);
+        //initialValues.put(Key_Sub_Sector_ID, subSectorID);
+        initialValues.put(Key_SECTOR_SUBSECTOR_ID, sectorID);
 
         return db.insert(SESSION_TABLE, null, initialValues);
     }

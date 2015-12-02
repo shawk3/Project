@@ -1,17 +1,24 @@
 package edu.byui.cs246.project;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 public class loadScreen extends AppCompatActivity {
     DataBase db;
+    int session = 0;
+    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +28,9 @@ public class loadScreen extends AppCompatActivity {
         db = new DataBase(this);
         db.open();
 
-        Cursor c = db.getAllRows(db.SESSION_TABLE);
+        settings = getSharedPreferences("settingsFile", 0);
+
+        final Cursor c = db.getAllRows(db.SESSION_TABLE);
         TableLayout table = (TableLayout) findViewById(R.id.table);
 
         if(c.getCount() == 0){
@@ -37,21 +46,37 @@ public class loadScreen extends AppCompatActivity {
         }
         else{
             c.moveToFirst();
+
             do{
                 TableRow tR = new TableRow(this);
                 tR.setPadding(5, 5, 5, 5);
 
-                TextView text = new TextView(this);
-                text.setText(c.getString(db.COL_SESSION_NAME));
+                Button button = new Button(this);
+                button.setText(c.getString(db.COL_SESSION_NAME));
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
 
-                CheckBox box = new CheckBox(this);
+                        //String name = ((button)view).getText();
+                        Button button = (Button)view;
+                        String name = button.getText().toString();
 
-                tR.addView(text);
-                tR.addView(box);
-    
+                        Cursor c = db.getRow(db.SESSION_TABLE, name);
+                        int s = c.getInt(db.COL_ROWID);
+
+                        SharedPreferences.Editor edit = settings.edit();
+                        edit.putInt("Session", s);
+                        edit.commit();
+
+                        System.exit(0);
+                    }
+                });
+
+                tR.addView(button);
+
                 table.addView(tR);
             } while(c.moveToNext());
         }
 
     }
+
 }

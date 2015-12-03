@@ -54,24 +54,29 @@ public class Analysis extends AppCompatActivity {
         DataBase db = new DataBase(this);
         db.open();
         Cursor c = db.getAllAnswers(sessionID);
+        Cursor q = db.getAllRows(db.QTABLE);
+        heights[3] = q.getCount();
         if(c.moveToFirst()){
             do {
                 String ans = c.getString(db.COL_QUESTION_ANSWER);
                 switch (ans) {
                     case "Y":
                         heights[0] += 1;
+                        heights[3] -= 1;
                         break;
                     case "N":
                         heights[1] += 1;
+                        heights[3] -= 1;
                         break;
                     case "NA":
                         heights[2] += 1;
+                        heights[3] -= 1;
                         break;
                     default:
-                        heights[3] += 1;
                 }
             }while(c.moveToNext());
         }
+
         return heights;
     }
 

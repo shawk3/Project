@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class DataBase {
     HashMap<String, String[]> tables = new HashMap<>();
     public static final String DBNAME = "myDB";
+
     public static final String QTABLE = "QuestionsTable";
     public static final String ATABLE = "AnsTable";
     public static final String SECTOR_TABLE = "SectorTable";

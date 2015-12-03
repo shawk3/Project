@@ -79,6 +79,12 @@ public class DataBaseCreator {
         dataBase.open();
 
         //dataBase.deleteAll();
+        dataBase.deleteAll(dataBase.ATABLE);
+        dataBase.deleteAll(dataBase.QTABLE);
+        dataBase.deleteAll(dataBase.SESSION_TABLE);
+        dataBase.deleteAll(dataBase.SECTOR_SUB_SECTOR_TABLE);
+        dataBase.deleteAll(dataBase.SUB_SECTOR_TABLE);
+        dataBase.deleteAll(dataBase.SECTOR_TABLE);
 
         createQuestions();
         createSectors();

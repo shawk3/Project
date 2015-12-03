@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.ListActivity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +19,10 @@ import android.widget.ArrayAdapter;
 
 public class DemographicsActivity extends AppCompatActivity implements ItemFragment.OnFragmentInteractionListener {
 
+    DataBase db;
+    SharedPreferences settings;
+    int sessionID;
+
     ItemFragment listFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,13 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Sector");
+
+        db = new DataBase(this);
+        db.open();
+
+        settings = getSharedPreferences("settingsFile", 0);
+        sessionID = settings.getInt("Session", 0);
+
 
 
         /*String[] demographics = {"Chemical", "Commercial Facilities", "Communications",
@@ -69,6 +82,14 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
 
     @Override
     public void onFragmentInteraction(String id) {
+
+    }
+
+    public void example(){
+        Cursor c = db.getAllRows(db.SECTOR_SUB_SECTOR_TABLE);
+        do{
+            String j = c.getString(db.COL_SUB_SECTOR_ID);
+        }while(c.moveToNext());
 
     }
 }

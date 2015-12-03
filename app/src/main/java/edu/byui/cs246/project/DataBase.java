@@ -16,7 +16,6 @@ import java.util.HashMap;
 public class DataBase {
     HashMap<String, String[]> tables = new HashMap<>();
     public static final String DBNAME = "myDB";
-    public static final String MTABLE = "mainTable";
     public static final String QTABLE = "QuestionsTable";
     public static final String ATABLE = "AnsTable";
     public static final String SECTOR_TABLE = "SectorTable";
@@ -243,6 +242,15 @@ public class DataBase {
         if(c != null){
             c.moveToFirst();
         }
+        return c;
+    }
+
+    public Cursor getSubSectors(long sectorID){
+        String where = Key_SECTOR_ID + " = " + sectorID;
+        Cursor c = db.query(true, SECTOR_SUB_SECTOR_TABLE, ALL_SECTOR_SUBSECTOR_KEYS, where, null, null, null, null, null);
+        if(c.getCount() == 0)
+            return null;
+
         return c;
     }
 

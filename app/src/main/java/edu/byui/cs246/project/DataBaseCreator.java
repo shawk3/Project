@@ -16,13 +16,14 @@ import java.util.Set;
  */
 public class DataBaseCreator {
 
-    String[] demographics = {"Chemical", "Commercial Facilities", "Communications",
+    String[] demographics = {"Default", "Chemical", "Commercial Facilities", "Communications",
             "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
             "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
             "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
             "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
 
-    String[] subSectors = {"Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer", "", "", "",
+    String[] subSectors = { "Default",
+                        "Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer",
                           "Entertainment and Media", "Gaming", "Lodging", "Outdoor Events", "Public Assembly", "Real Estate", "Retail", "Sports Leagues",
                            "", "","", "", "", "", "", "",
                           "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment", "", "", "", "",
@@ -121,7 +122,7 @@ public class DataBaseCreator {
         sub = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]);
         subID = sub.getInt(dataBase.COL_ROWID);
 
-        dataBase.insertSectorSubSector(sectorID, subID);
+        dataBase.insertSectorSubSector(sectorID, subID);  // this is the default default
 
         subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[1]).getInt(dataBase.COL_ROWID);
         dataBase.insertSectorSubSector(sectorID, subID);

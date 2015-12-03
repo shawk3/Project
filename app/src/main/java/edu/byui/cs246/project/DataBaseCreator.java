@@ -91,11 +91,11 @@ public class DataBaseCreator {
         dataBase.deleteAll(dataBase.SUB_SECTOR_TABLE);
         dataBase.deleteAll(dataBase.SECTOR_TABLE);
 
-        createQuestions();
-        createSectors();
-        createSubSectors();
+        //createQuestions();
+        //createSectors();
+        //createSubSectors();
         createSectorSubSectorMap();
-        createSessions();
+        //createSessions();
         //dataBase.close();
 
 
@@ -128,6 +128,18 @@ public class DataBaseCreator {
         Cursor sect;
         Cursor sub;
 
+        for(int i = 0; i < map.length; i++){
+            sect = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[map[i][0]]);
+            sectorID = sect.getInt(dataBase.COL_ROWID);
+            sub = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[map[i][1]]);
+            subID = sub.getInt(dataBase.COL_ROWID);
+
+            dataBase.insertSectorSubSector(sectorID, subID);
+
+        }
+
+
+
         sect = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[0]);
         sectorID = sect.getInt(dataBase.COL_ROWID);
         sub = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]);
@@ -143,6 +155,8 @@ public class DataBaseCreator {
         sectorID = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[1]).getInt(dataBase.COL_ROWID);
         subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]).getInt(dataBase.COL_ROWID);
         dataBase.insertSectorSubSector(sectorID, subID);
+
+
 
     }
 

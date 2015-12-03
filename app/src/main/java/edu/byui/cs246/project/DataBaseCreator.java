@@ -20,27 +20,32 @@ public class DataBaseCreator {
             "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
             "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
             "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
-            "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
+            "Transportation Systems", "Water and Wastewater Systems"};
 
-    String[] subSectors = { "Default",
-                        "Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer",
-                          "Entertainment and Media", "Gaming", "Lodging", "Outdoor Events", "Public Assembly", "Real Estate", "Retail", "Sports Leagues",
-                           "", "","", "", "", "", "", "",
-                          "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment", "", "", "", "",
-                          "", "","", "", "", "", "", "",
-                          "", "","", "", "", "", "", "",
-                           "Law Enforcement", "Fire and Emergency Services", "Emergency Management", "Emergency Medical Services", "Public Works", "","", "",
-                          "Electricity", "Petroleum", "Natural Gas", "","","","","",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "Education Facilities", "National Monuments", "","","","","","",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "Aviation", "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",
-                         "", "","", "", "", "", "", "",};
+    String[] subSectors = { "Default", "Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer", "Entertainment and Media",
+                        "Gaming", "Lodging", "Outdoor Events", "Public Assembly", "Real Estate", "Retail", "Sports Leagues",
+                        "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment",
+                        "Law Enforcement", "Fire and Emergency Services", "Emergency Management", "Emergency Medical Services", "Public Works",
+                        "Electricity", "Petroleum", "Natural Gas", "Education Facilities", "National Monuments", "Aviation",
+                        "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",};
 
+    int[][] map = new int[][]{{0,0},
+            {1,1},{1,2},{1,3},{1,4},{1,5},
+            {2,6},{2,7},{2,8},{2,9},{2,10},{2,11},{2,12},{2,13},
+            {3,0},
+            {4,14},{4,15},{4,16},{4,17},
+            {5,0},
+            {6,0},
+            {7,18},{7,19},{7,20},{7,21},{7,22},
+            {8,23},{8,24},{8,25},
+            {9,0},
+            {10,0},
+            {11,26},{11,27},
+            {12,0},
+            {13,0},
+            {14,0},
+            {15,0},
+            {16,28},{16,29},{16,30},{16,31},{16,32},{16,33},{16,34}};
 
 
     String questions[] = new String[]{"Have all default passwords been changed?",

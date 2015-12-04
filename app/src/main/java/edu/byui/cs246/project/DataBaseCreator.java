@@ -16,30 +16,36 @@ import java.util.Set;
  */
 public class DataBaseCreator {
 
-    String[] demographics = {"Chemical", "Commercial Facilities", "Communications",
+    String[] demographics = {"Default", "Chemical", "Commercial Facilities", "Communications",
             "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
             "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
             "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
-            "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
+            "Transportation Systems", "Water and Wastewater Systems"};
 
-    String[] subSectors = {"Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer", "", "", "",
-                          "Entertainment and Media", "Gaming", "Lodging", "Outdoor Events", "Public Assembly", "Real Estate", "Retail", "Sports Leagues",
-                           "", "","", "", "", "", "", "",
-                          "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment", "", "", "", "",
-                          "", "","", "", "", "", "", "",
-                          "", "","", "", "", "", "", "",
-                           "Law Enforcement", "Fire and Emergency Services", "Emergency Management", "Emergency Medical Services", "Public Works", "","", "",
-                          "Electricity", "Petroleum", "Natural Gas", "","","","","",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "Education Facilities", "National Monuments", "","","","","","",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "", "","", "", "", "", "", "",
-                         "Aviation", "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",
-                         "", "","", "", "", "", "", "",};
+    String[] subSectors = { "Default", "Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer", "Entertainment and Media",
+                        "Gaming", "Lodging", "Outdoor Events", "Public Assembly", "Real Estate", "Retail", "Sports Leagues",
+                        "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment",
+                        "Law Enforcement", "Fire and Emergency Services", "Emergency Management", "Emergency Medical Services", "Public Works",
+                        "Electricity", "Petroleum", "Natural Gas", "Education Facilities", "National Monuments", "Aviation",
+                        "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",};
 
+    int[][] map = new int[][]{{0,0},
+            {1,1},{1,2},{1,3},{1,4},{1,5},
+            {2,6},{2,7},{2,8},{2,9},{2,10},{2,11},{2,12},{2,13},
+            {3,0},
+            {4,14},{4,15},{4,16},{4,17},
+            {5,0},
+            {6,0},
+            {7,18},{7,19},{7,20},{7,21},{7,22},
+            {8,23},{8,24},{8,25},
+            {9,0},
+            {10,0},
+            {11,26},{11,27},
+            {12,0},
+            {13,0},
+            {14,0},
+            {15,0},
+            {16,28},{16,29},{16,30},{16,31},{16,32},{16,33},{16,34}};
 
 
     String questions[] = new String[]{"Have all default passwords been changed?",
@@ -78,12 +84,18 @@ public class DataBaseCreator {
         dataBase.open();
 
         //dataBase.deleteAll();
+        dataBase.deleteAll(dataBase.ATABLE);
+        dataBase.deleteAll(dataBase.QTABLE);
+        dataBase.deleteAll(dataBase.SESSION_TABLE);
+        dataBase.deleteAll(dataBase.SECTOR_SUB_SECTOR_TABLE);
+        dataBase.deleteAll(dataBase.SUB_SECTOR_TABLE);
+        dataBase.deleteAll(dataBase.SECTOR_TABLE);
 
-        createQuestions();
-        createSectors();
-        createSubSectors();
+        //createQuestions();
+        //createSectors();
+        //createSubSectors();
         createSectorSubSectorMap();
-        createSessions();
+        //createSessions();
         //dataBase.close();
 
 
@@ -116,12 +128,24 @@ public class DataBaseCreator {
         Cursor sect;
         Cursor sub;
 
+        for(int i = 0; i < map.length; i++){
+            sect = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[map[i][0]]);
+            sectorID = sect.getInt(dataBase.COL_ROWID);
+            sub = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[map[i][1]]);
+            subID = sub.getInt(dataBase.COL_ROWID);
+
+            dataBase.insertSectorSubSector(sectorID, subID);
+
+        }
+
+
+
         sect = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[0]);
         sectorID = sect.getInt(dataBase.COL_ROWID);
         sub = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]);
         subID = sub.getInt(dataBase.COL_ROWID);
 
-        dataBase.insertSectorSubSector(sectorID, subID);
+        dataBase.insertSectorSubSector(sectorID, subID);  // this is the default default
 
         subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[1]).getInt(dataBase.COL_ROWID);
         dataBase.insertSectorSubSector(sectorID, subID);
@@ -131,6 +155,8 @@ public class DataBaseCreator {
         sectorID = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[1]).getInt(dataBase.COL_ROWID);
         subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]).getInt(dataBase.COL_ROWID);
         dataBase.insertSectorSubSector(sectorID, subID);
+
+
 
     }
 

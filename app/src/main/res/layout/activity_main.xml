@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/colorBackground">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorPrimaryDark"
         android:elevation="4dp"
         android:theme="@style/AppTheme.AppBarOverlay" />
 
@@ -24,7 +25,8 @@
         android:enabled="true"
         android:onClick="clickLoad"
         android:layout_below="@+id/my_toolbar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/blue_button"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -35,7 +37,8 @@
         android:enabled="true"
         android:onClick="clickNew"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/load.b" />
+        android:layout_alignStart="@+id/load.b"
+        android:background="@drawable/blue_button"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -48,5 +51,6 @@
         android:onClick="clickCreateDataBase"
         android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/blue_button"/>
 </RelativeLayout>

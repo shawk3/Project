@@ -37,20 +37,10 @@ public class QuestionActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Questions");
+
         settings = getSharedPreferences("settingsFile", 0);
         sessionID = settings.getInt("Session", 0);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
         this.retieveQuestions();
         this.displayQuestion();
     }

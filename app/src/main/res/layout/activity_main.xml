@@ -20,13 +20,13 @@
         android:layout_height="wrap_content"
         android:text="Load"
         android:id="@+id/load.b"
-        android:layout_marginTop="54dp"
         android:clickable="true"
         android:enabled="true"
         android:onClick="clickLoad"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/blue_button"/>
+        android:background="@drawable/blue_button"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="65dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,9 +36,10 @@
         android:clickable="true"
         android:enabled="true"
         android:onClick="clickNew"
+        android:background="@drawable/blue_button"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/load.b"
-        android:background="@drawable/blue_button"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="75dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -49,8 +50,40 @@
         android:clickable="true"
         android:enabled="true"
         android:onClick="clickCreateDataBase"
-        android:layout_marginBottom="50dp"
+        android:background="@drawable/blue_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/blue_button"/>
+        android:layout_marginBottom="106dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="CSET"
+        android:id="@+id/title.t"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This tool will allow you to assess your companies cyber security. This is just an informational assessment and we are not responsible for any decisions you make, or breaches you may have."
+        android:id="@+id/summary.t"
+        android:layout_below="@+id/title.t"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To start an assessment, either start a new profile or load a previous one."
+        android:id="@+id/instructions.t"
+        android:layout_below="@+id/summary.t"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 </RelativeLayout>

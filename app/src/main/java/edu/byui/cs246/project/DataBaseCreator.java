@@ -44,8 +44,8 @@ public class DataBaseCreator {
             {12,0},
             {13,0},
             {14,0},
-            {15,0},
-            {16,28},{16,29},{16,30},{16,31},{16,32},{16,33},{16,34}};
+            {15,28},{15,29},{15,30},{15,31},{15,32},{15,33},{15,34},
+            {16,0}};
 
 
     String questions[] = new String[]{"Have all default passwords been changed?",
@@ -55,7 +55,7 @@ public class DataBaseCreator {
             "Are the number of access points to the system limited to allow for better monitoring of inbound and outbound network traffic?",
             "Does the system deny network traffic by default and allow network traffic by exception?",
             "Do you encrypt communication over all untrusted communication channels?",
-            "Are all factory default authentication credentials changed on system components and applications upon installation",
+            "Are all factory default authentication credentials changed on system components and applications upon installation?",
             "Is wireless access to the system authorized, monitored, and managed?",
             "Is there a thorough scan for unauthorized changes to software and information?",
             "Does the system protect against or limit the effects of denial-of-service attacks based on a defined list of types of denial-of-service attacks?",
@@ -91,12 +91,12 @@ public class DataBaseCreator {
         dataBase.deleteAll(dataBase.SUB_SECTOR_TABLE);
         dataBase.deleteAll(dataBase.SECTOR_TABLE);
 
-        //createQuestions();
-        //createSectors();
-        //createSubSectors();
+        createQuestions();
+        createSectors();
+        createSubSectors();
         createSectorSubSectorMap();
-        //createSessions();
-        //dataBase.close();
+        createSessions();
+        dataBase.close();
 
 
     }
@@ -137,27 +137,6 @@ public class DataBaseCreator {
             dataBase.insertSectorSubSector(sectorID, subID);
 
         }
-
-
-
-        sect = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[0]);
-        sectorID = sect.getInt(dataBase.COL_ROWID);
-        sub = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]);
-        subID = sub.getInt(dataBase.COL_ROWID);
-
-        dataBase.insertSectorSubSector(sectorID, subID);  // this is the default default
-
-        subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[1]).getInt(dataBase.COL_ROWID);
-        dataBase.insertSectorSubSector(sectorID, subID);
-
-
-
-        sectorID = dataBase.getRow(dataBase.SECTOR_TABLE, demographics[1]).getInt(dataBase.COL_ROWID);
-        subID = dataBase.getRow(dataBase.SUB_SECTOR_TABLE, subSectors[0]).getInt(dataBase.COL_ROWID);
-        dataBase.insertSectorSubSector(sectorID, subID);
-
-
-
     }
 
     private void createSessions(){

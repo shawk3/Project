@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class Analysis extends AppCompatActivity {
     SharedPreferences settings;
     int sessionID;
@@ -36,13 +34,16 @@ public class Analysis extends AppCompatActivity {
         la = (LinearLayout)findViewById(R.id.lchart);
         key = (LinearLayout)findViewById(R.id.key);
 
-        int color[] = {Color.GREEN,Color.RED,Color.YELLOW, Color.BLUE};
+        int drawableId[] = {R.drawable.analysis_chart_green,
+                            R.drawable.analysis_chart_red,
+                            R.drawable.analysis_chart_yellow,
+                            R.drawable.analysis_chart_blue};
 
         int height[] = getHeights();
 
         for(int j = 0; j < height.length; j++){
 
-            drawChart(1,color[j],height[j]);
+            drawChart(1,drawableId[j],height[j]);
         }
 
         drawKey();
@@ -111,18 +112,18 @@ public class Analysis extends AppCompatActivity {
         return true;
     }
 
-    private void drawChart(int count, int color, int height) {
+    private void drawChart(int count, int drawableId, int height) {
         //System.out.println(count+color+height);
         //color = Color.BLUE;
 
         View view = new View(this);
-        view.setBackgroundColor(color);
-        view.setLayoutParams(new LinearLayout.LayoutParams(100, height*100));
+        view.setLayoutParams(new LinearLayout.LayoutParams(100, height * 5));
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
 
-        params.setMargins(90,0,0,0);
+        params.setMargins(90, 0, 0, 0);
         view.setLayoutParams(params);
+        view.setBackgroundResource(drawableId);
 
         la.addView(view);
     }
@@ -136,8 +137,6 @@ public class Analysis extends AppCompatActivity {
         key.addView((textKey("N/A", 100)));
         key.addView(smallView(Color.BLUE));
         key.addView(textKey("UnAnswered", 250));
-
-
     }
 
 

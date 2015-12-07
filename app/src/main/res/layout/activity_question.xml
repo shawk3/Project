@@ -40,21 +40,21 @@
         android:paddingLeft="16dp"
         android:layout_below="@+id/my_toolbar"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/answerButtons" />
+        android:layout_toStartOf="@+id/nextText" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="&lt;prev"
         android:id="@+id/prevText"
-        android:layout_marginBottom="97dp"
-        android:layout_marginStart="59dp"
+        android:layout_marginBottom="55dp"
+        android:layout_marginStart="57dp"
         android:clickable="true"
         android:enabled="true"
         android:onClick="prevClick"
+        android:background="@drawable/blue_button"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/blue_button"/>
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"

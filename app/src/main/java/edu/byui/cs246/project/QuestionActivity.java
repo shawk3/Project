@@ -209,9 +209,9 @@ public class QuestionActivity extends AppCompatActivity {
 
         //set prev/next button apearance
         if(!index.isFirst())
-            ((TextView) findViewById(R.id.prevText)).setText("<prev");
+            ((TextView) findViewById(R.id.prevText)).setVisibility(View.VISIBLE);
         else
-            ((TextView) findViewById(R.id.prevText)).setText("");
+            ((TextView) findViewById(R.id.prevText)).setVisibility(View.INVISIBLE);
 
         if(!index.isLast())
             ((TextView) findViewById(R.id.nextText)).setText("next>");

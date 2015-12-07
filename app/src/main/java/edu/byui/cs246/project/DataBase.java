@@ -149,18 +149,18 @@ public class DataBase {
     }
 
     //insert a row on the Answer Table
-    public long insertAnswer(int Sid, int QID, String ans){
+    public long insertAnswer(int Sid, int Qid, String ans){
         ContentValues initialValues = new ContentValues();
-        Cursor c = getAnswer(Sid, QID);
+        Cursor c = getAnswer(Qid, Sid);
         if(c == null){
-            initialValues.put(Key_QID, QID);
+            initialValues.put(Key_QID, Qid);
             initialValues.put(Key_SID, Sid);
             initialValues.put(Key_QUESTION_ANSWER, ans);
 
             return db.insert(ATABLE, null, initialValues);
         }
         else{
-            updateAnswer(Sid, QID, ans);
+            updateAnswer(Sid, Qid, ans);
             return c.getInt(COL_QUESTION_ID);
         }
 

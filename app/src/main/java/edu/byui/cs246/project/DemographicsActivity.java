@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DemographicsActivity extends AppCompatActivity implements ItemFragment.OnFragmentInteractionListener {
 
     DataBase db;
@@ -85,11 +88,19 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
 
     }
 
-    public void example(){
-        Cursor c = db.getAllRows(db.SECTOR_SUB_SECTOR_TABLE);
+    //Example function
+    public void onClick(String text){
+        List<String> subSectors= new ArrayList<String>();
+
+        Cursor SidCursor = db.getRow(db.SECTOR_TABLE, text);
+        int Sid = SidCursor.getInt(db.COL_SECTOR_ID);
+        Cursor c = db.getSubSectors(Sid);
         do{
             String j = c.getString(db.COL_SUB_SECTOR_ID);
+            subSectors.add(j);
         }while(c.moveToNext());
+
+
 
     }
 }

@@ -57,7 +57,7 @@ public class Analysis extends AppCompatActivity {
         Cursor c = db.getAllAnswers(sessionID);
         Cursor q = db.getAllRows(db.QTABLE);
         heights[3] = q.getCount();
-        if(c.moveToFirst()){
+        if(c != null && c.moveToFirst()){
             do {
                 String ans = c.getString(db.COL_QUESTION_ANSWER);
                 switch (ans) {
@@ -117,7 +117,7 @@ public class Analysis extends AppCompatActivity {
         //color = Color.BLUE;
 
         View view = new View(this);
-        view.setLayoutParams(new LinearLayout.LayoutParams(100, height * 5));
+        view.setLayoutParams(new LinearLayout.LayoutParams(100, height * 25));
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
 

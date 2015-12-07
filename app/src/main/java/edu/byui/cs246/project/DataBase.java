@@ -160,7 +160,7 @@ public class DataBase {
             return db.insert(ATABLE, null, initialValues);
         }
         else{
-            updateAnswer(Sid, Qid, ans);
+            updateAnswer(Qid, Sid, ans);
             return c.getInt(COL_QUESTION_ID);
         }
 

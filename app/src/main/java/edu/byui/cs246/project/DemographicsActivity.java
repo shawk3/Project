@@ -15,7 +15,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,15 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
     DataBase db;
     SharedPreferences settings;
     int sessionID;
+    String[] sectors = {"Chemical", "Commercial Facilities", "Communications",
+            "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
+            "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
+            "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
+            "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
+
+    ListView sectorList;
+    ArrayAdapter<String> adapter;
+
 
     ItemFragment listFrag;
     @Override
@@ -43,16 +54,15 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
 
 
 
-        /*String[] demographics = {"Chemical", "Commercial Facilities", "Communications",
-                "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
-                "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
-                "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
-                "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(),
-                android.R.layout.simple_list_item_1, demographics);
-        getListView().setAdapter(adapter);
-        */
+        sectorList = (ListView) findViewById(R.id.sectorList);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sectors);
+        sectorList.setAdapter(adapter);
+        sectorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
+            }
+        });
     }
 
     @Override

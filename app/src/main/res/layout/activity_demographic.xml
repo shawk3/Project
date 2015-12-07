@@ -15,22 +15,16 @@
         android:elevation="4dp"
         android:theme="@style/AppTheme.AppBarOverlay" />
 
-    <fragment
-        android:paddingTop="30dp"
-        android:id="@+id/fragment1"
-        android:name="edu.byui.cs246.project.ItemFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_item"
-        android:layout_below="@+id/my_toolbar" />
-<!--
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
+        android:id="@+id/sectorList"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText" />
-
+        android:layout_below="@+id/my_toolbar"
+        android:background="@drawable/list_selector"/>
+<!--
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

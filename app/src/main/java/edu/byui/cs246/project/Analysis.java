@@ -117,7 +117,7 @@ public class Analysis extends AppCompatActivity {
         //color = Color.BLUE;
 
         View view = new View(this);
-        view.setLayoutParams(new LinearLayout.LayoutParams(100, height * 25));
+        view.setLayoutParams(new LinearLayout.LayoutParams(100, height * 30));
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
 
@@ -142,10 +142,8 @@ public class Analysis extends AppCompatActivity {
 
     private void drawPercent(int height[]) {
         int percent;
-        if((height[0] + height[1]) > 0)
-            percent = (100 * height[0]) / (height[0] + height[1]);
-        else
-            percent = 0;
+        percent = (100 * height[0]) / (height[0] + height[1] + height[3]);
+
         TextView percentText = (TextView) findViewById(R.id.percentText);
 
         if (percent >= 85)
@@ -155,7 +153,7 @@ public class Analysis extends AppCompatActivity {
         else
             percentText.setTextColor(Color.RED);
 
-        percentText.setText(String.valueOf(percent) + " %");
+        percentText.setText(String.valueOf(percent) + "% Passed");
     }
 
     private TextView textKey(String text, int size){

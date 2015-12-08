@@ -129,13 +129,13 @@ public class Analysis extends AppCompatActivity {
     }
 
     private void drawKey(){
-        key.addView(smallView(Color.GREEN));
+        key.addView(smallView(Color.GREEN,100));
         key.addView(textKey("Yes", 100));
-        key.addView(smallView(Color.RED));
+        key.addView(smallView(Color.RED, 30));
         key.addView(textKey("No", 75));
-        key.addView(smallView(Color.YELLOW));
+        key.addView(smallView(Color.YELLOW, 30));
         key.addView((textKey("N/A", 100)));
-        key.addView(smallView(Color.BLUE));
+        key.addView(smallView(Color.BLUE, 30));
         key.addView(textKey("UnAnswered", 250));
     }
 
@@ -170,11 +170,11 @@ public class Analysis extends AppCompatActivity {
         return view;
     }
 
-    private View smallView(int color){
+    private View smallView(int color, int leftMargin){
         View view = new View(this);
         view.setLayoutParams(new LinearLayout.LayoutParams(20, 20));
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
-        params.setMargins(30, 0, 0, 10);
+        params.setMargins(leftMargin, 0, 0, 10);
         view.setLayoutParams(params);
 
         view.setBackgroundColor(color);

@@ -59,7 +59,9 @@
         android:text="Number of Questions for each Answer"
         android:id="@+id/title.t"
         android:layout_below="@+id/Title.t"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:layout_width="wrap_content"

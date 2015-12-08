@@ -141,6 +141,5 @@ public class DataBaseCreator {
 
     private void createSessions(){
         dataBase.insertSession("Test Assessment", "today", 1);
-        dataBase.insertSession("Test Assessment 2", "yesterday", 1);
     }
 }

@@ -53,6 +53,8 @@ public class loadScreen extends AppCompatActivity {
 
                 Button button = new Button(this);
                 button.setText(c.getString(db.COL_SESSION_NAME));
+                button.setBackgroundResource(R.drawable.blue_button);
+
                 button.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
 

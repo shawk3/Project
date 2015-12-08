@@ -235,7 +235,7 @@ public class DataBase {
     }
 
     public Cursor getRow(String table, String text){
-        String keys[] = tables.get(table);
+        final String keys[] = tables.get(table);
         String columnName = keys[1];
         String where = columnName + " = '" + text + "'";
 

@@ -1,9 +1,10 @@
 
 package edu.byui.cs246.project;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.opengl.Visibility;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,8 +13,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import static java.lang.System.exit;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     DataBase db;
@@ -78,11 +79,20 @@ public class MainActivity extends AppCompatActivity {
     public void clickNew(View v){
         //create a new session
         //go to the demographics page
-        SharedPreferences.Editor edit = settings.edit();
-        edit.putInt("Session", 0);
-        edit.commit();
+
+
+        TextView Instructions = (TextView) findViewById(R.id.enterName_t);
+        Instructions.setVisibility(View.VISIBLE);
+
+        EditText profileText = (EditText) findViewById(R.id.sesname_t);
+        profileText.setVisibility(View.VISIBLE);
+
+        Button continueButton = (Button) findViewById(R.id.continue_b);
+        continueButton.setVisibility(View.VISIBLE);
+
+
+
         //db.insertSession("Name", "today", 1, 1);
-        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
 
     }
 
@@ -91,6 +101,33 @@ public class MainActivity extends AppCompatActivity {
     public void clickCreateDataBase(View v){
         DataBaseCreator creator = new DataBaseCreator(db);
         creator.create();
+    }
+
+    public void clickContinue(View v){
+        int j = 5;
+        for (int i = 0; i < j; i++)
+        {
+            j = (j + j) / j;
+        }
+
+
+        EditText profileText = (EditText) findViewById(R.id.sesname_t);
+        String name = profileText.getText().toString();
+
+        String date = "Today";
+        db.open();
+        Cursor c = db.getRow(db.SECTOR_TABLE, "Default");
+
+        int sssid = c.getInt(db.COL_ROWID);
+
+        long sid = db.insertSession(name, date, sssid);
+
+        SharedPreferences.Editor edit = settings.edit();
+        edit.putInt("Session", (int) sid);
+        edit.commit();
+
+        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
+
     }
 
 

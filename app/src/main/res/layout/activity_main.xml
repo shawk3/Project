@@ -51,9 +51,8 @@
         android:enabled="true"
         android:onClick="clickCreateDataBase"
         android:background="@drawable/blue_button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="106dp" />
+        android:layout_alignTop="@+id/continue.b"
+        android:layout_alignStart="@+id/enterName.t" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -86,4 +85,38 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sesname.t"
+        android:width="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/enterName.t"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please enter the name of your new profile:"
+        android:id="@+id/enterName.t"
+        android:layout_below="@+id/load.b"
+        android:layout_alignStart="@+id/instructions.t"
+        android:layout_marginTop="59dp"
+        android:visibility="invisible" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:id="@+id/continue.b"
+        android:background="@drawable/blue_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/instructions.t"
+        android:layout_marginBottom="25dp"
+        android:visibility="invisible"
+        android:enabled="true"
+        android:clickable="true"
+        android:onClick="clickContinue" />
 </RelativeLayout>

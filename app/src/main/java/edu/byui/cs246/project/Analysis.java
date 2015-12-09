@@ -151,6 +151,9 @@ public class Analysis extends AppCompatActivity {
         la.addView(view);
     }
 
+    /**
+     * Draw the key to our graph
+     */
     private void drawKey(){
         key.addView(smallView(Color.GREEN,100));
         key.addView(textKey("Yes", 100));
@@ -162,7 +165,11 @@ public class Analysis extends AppCompatActivity {
         key.addView(textKey("UnAnswered", 250));
     }
 
-
+    /**
+     * Calculate and display the percentage of passed questions the User achieved.
+     *
+     * @param height A list of [Yes, No, NA, U] counts
+     */
     private void drawPercent(int height[]) {
         int percent;
         percent = (100 * height[0]) / (height[0] + height[1] + height[3]);
@@ -179,6 +186,16 @@ public class Analysis extends AppCompatActivity {
         percentText.setText(String.valueOf(percent) + "% Passed");
     }
 
+    /**
+     * Create a Key text view.
+     *
+     * This view will be used in the key as descriptive text. It will sit next to a little colored
+     * box
+     *
+     * @param text The text to insert
+     * @param size The length of the text
+     * @return A View
+     */
     private TextView textKey(String text, int size){
         TextView view = new TextView(this);
         view.setText(text);
@@ -188,11 +205,16 @@ public class Analysis extends AppCompatActivity {
         params.setMargins(30, 0, 10, 0);
         view.setLayoutParams(params);
 
-
-
         return view;
     }
 
+    /**
+     * Create a little box of a specific color to be inserted in the key
+     *
+     * @param color The color the box will be
+     * @param leftMargin The Left Margin size
+     * @return A little box View
+     */
     private View smallView(int color, int leftMargin){
         View view = new View(this);
         view.setLayoutParams(new LinearLayout.LayoutParams(20, 20));

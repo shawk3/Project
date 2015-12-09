@@ -22,6 +22,10 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Jason
+ * @since 2015-11
+ */
 public class DemographicsActivity extends AppCompatActivity implements ItemFragment.OnFragmentInteractionListener {
 
     DataBase db;

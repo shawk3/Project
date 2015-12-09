@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Kyle on 11/7/2015.
+ * @author Kyle
+ * @since 2015-11-7
  */
 public class DataBaseCreator {
 
@@ -79,6 +80,9 @@ public class DataBaseCreator {
 
     }
 
+    /**
+     * create a new instance of the data base
+     */
     public void create(){
         //DataBase dataBase = new DataBase(context);
         dataBase.open();

@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+/**
+ * @author Kyle
+ * @since 2015-11
+ */
 public class loadScreen extends AppCompatActivity {
     DataBase db;
     int session = 0;

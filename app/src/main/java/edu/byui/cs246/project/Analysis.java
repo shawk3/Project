@@ -14,6 +14,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * @author Kyle
+ * @since 2015-11
+ */
 public class Analysis extends AppCompatActivity {
     SharedPreferences settings;
     int sessionID;
@@ -50,6 +54,15 @@ public class Analysis extends AppCompatActivity {
         drawPercent(height);
     }
 
+    /**
+     * Get the counts of each answer of this session
+     *
+     * Loops through the dataTable and counts how many of each answer there are. It also counts
+     * how many questions there are so that it can calculate how many unanswered questions there
+     * are.
+     *
+     * @return The counts of Yes, no,... answers there are.
+     */
     private int[] getHeights() {
         int heights[] = new int[4];
         DataBase db = new DataBase(this);
@@ -112,6 +125,16 @@ public class Analysis extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Draw the Graph
+     *
+     * Create a rectangle of the appropriate height and color
+     *
+     *
+     * @param count
+     * @param drawableId
+     * @param height The Count of questions with the same answer
+     */
     private void drawChart(int count, int drawableId, int height) {
         //System.out.println(count+color+height);
         //color = Color.BLUE;

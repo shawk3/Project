@@ -17,10 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import edu.byui.cs246.project.SectorAdapter;
 
 public class DemographicsActivity extends AppCompatActivity implements ItemFragment.OnFragmentInteractionListener {
 
@@ -33,9 +37,12 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
             "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
             "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
 
-    ListView sectorList;
-    ArrayAdapter<String> adapter;
 
+    //ArrayAdapter<String> adapter;
+    HashMap<String, List<String>> Sector_And_Subs;
+    List<String> Sector_List;
+    ExpandableListView sectorList;
+    SectorAdapter sectorAdapter;
 
     ItemFragment listFrag;
     @Override
@@ -52,17 +59,25 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
         settings = getSharedPreferences("settingsFile", 0);
         sessionID = settings.getInt("Session", 0);
 
+        sectorList = (ExpandableListView) findViewById(R.id.sectorList);
+        Sector_And_Subs = DataBaseCreator.getInfo();
+        Sector_List = new ArrayList<String>(Sector_And_Subs.keySet());
+        sectorAdapter = new SectorAdapter(this, Sector_And_Subs, Sector_List);
+        sectorList.setAdapter(sectorAdapter);
 
-
-        sectorList = (ListView) findViewById(R.id.sectorList);
+        /*sectorList = (ExpandableListView) findViewById(R.id.sectorList);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sectors);
         sectorList.setAdapter(adapter);
         sectorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 view.setSelected(true);
+
+
             }
         });
+        */
+
     }
 
     @Override

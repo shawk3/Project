@@ -17,6 +17,93 @@ import java.util.Set;
  */
 public class DataBaseCreator {
 
+    public static HashMap<String, List<String>> getInfo() {
+        HashMap<String, List<String>> Sectors_And_Subs = new HashMap<String, List<String>>();
+
+        List<String> Chemical = new ArrayList<String>();
+        Chemical.add("Basic");
+        Chemical.add("Specialty");
+        Chemical.add("Agricultural");
+        Chemical.add("Pharmaceuticals");
+        Chemical.add("Consumer");
+
+        List<String> ComFac = new ArrayList<String>();
+        ComFac.add("Entertainment & Media");
+        ComFac.add("Gaming");
+        ComFac.add("Lodging");
+        ComFac.add("Outdoor Events");
+        ComFac.add("Public Assembly");
+        ComFac.add("Real Estate");
+        ComFac.add("Retail");
+        ComFac.add("Sports Leagues");
+
+        List<String> Communications = new ArrayList<String>();
+
+        List<String> CritMan = new ArrayList<String>();
+        CritMan.add("Primary Metal");
+        CritMan.add("Machinery");
+        CritMan.add("Electrical Equipment");
+        CritMan.add("Transportation Equipment");
+
+        List<String> Dams = new ArrayList<String>();
+
+        List<String> DIB = new ArrayList<String>();
+
+        List<String> EmerSer = new ArrayList<String>();
+        EmerSer.add("Law Enforcement");
+        EmerSer.add("Fire & Emergency Services");
+        EmerSer.add("Emergency Management");
+        EmerSer.add("Emergency Medical Services");
+        EmerSer.add("Public Works");
+
+        List<String> Energy = new ArrayList<String>();
+        Energy.add("Electricity");
+        Energy.add("Petroleum");
+        Energy.add("Natural Gas");
+
+        List<String> FiSi = new ArrayList<String>();
+
+        List<String> FAA = new ArrayList<String>();
+
+        List<String> GovFac = new ArrayList<String>();
+        GovFac.add("Education Facilities");
+        GovFac.add("National Monuments");
+
+        List<String> Health = new ArrayList<String>();
+        List<String> Info = new ArrayList<String>();
+        List<String> NMW = new ArrayList<String>();
+
+        List<String> TranSys = new ArrayList<String>();
+        TranSys.add("Aviation");
+        TranSys.add("Highway Infrastructure");
+        TranSys.add("Maritime Transportation");
+        TranSys.add("Mass Transit");
+        TranSys.add("Pipeline Systems");
+        TranSys.add("Freight Rail");
+        TranSys.add("Postal and Shipping");
+
+        List<String> Water = new ArrayList<String>();
+
+        Sectors_And_Subs.put("Chemical", Chemical);
+        Sectors_And_Subs.put("Commercial Facilities", ComFac);
+        Sectors_And_Subs.put("Communications", Communications);
+        Sectors_And_Subs.put("Critical Manufacturing", CritMan);
+        Sectors_And_Subs.put("Dams", Dams);
+        Sectors_And_Subs.put("Defense Industrial Base", DIB);
+        Sectors_And_Subs.put("Emergency Services", EmerSer);
+        Sectors_And_Subs.put("Energy", Energy);
+        Sectors_And_Subs.put("Financial Services", FiSi);
+        Sectors_And_Subs.put("Food and Agriculture", FAA);
+        Sectors_And_Subs.put("Government Facilites", GovFac);
+        Sectors_And_Subs.put("Healthcare and Public Health", Health);
+        Sectors_And_Subs.put("Information Technology", Info);
+        Sectors_And_Subs.put("Nuclear Reactors, Materials, and Waste", NMW);
+        Sectors_And_Subs.put("Transportaion Systems", TranSys);
+        Sectors_And_Subs.put("Water and Wasterwater Systems", Water);
+
+        return Sectors_And_Subs;
+    }
+
     String[] demographics = {"Default", "Chemical", "Commercial Facilities", "Communications",
             "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
             "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",

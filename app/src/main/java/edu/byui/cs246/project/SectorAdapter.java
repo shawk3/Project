@@ -1,10 +1,12 @@
 package edu.byui.cs246.project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
@@ -89,6 +91,8 @@ public class SectorAdapter extends BaseExpandableListAdapter {
         }
         TextView child_textview = (TextView)convertView.findViewById(R.id.child_txt);
         child_textview.setText(child_title);
+
+
         return convertView;
     }
 

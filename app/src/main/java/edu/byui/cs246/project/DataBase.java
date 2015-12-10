@@ -10,8 +10,8 @@ import android.test.InstrumentationTestCase;
 import java.util.HashMap;
 
 /**
- * Created by Kyle on 10/31/2015.
- * .b  .t  .v
+ * @author Kyle
+ * @since 2015-10-31
  */
 public class DataBase {
     HashMap<String, String[]> tables = new HashMap<>();
@@ -130,16 +130,32 @@ public class DataBase {
         tables.put(SECTOR_SUB_SECTOR_TABLE, ALL_SECTOR_SUBSECTOR_KEYS);
     }
 
+    /**
+     * Allow the database to be written to.
+     *
+     * @return a writable database
+     */
     public DataBase open(){
         db = myDBHelper.getWritableDatabase();
         return this;
     }
 
+    /**
+     * close the writable database
+     */
     public void close(){
         myDBHelper.close();
     }
 
-    //General insert, Only works with tables that have an Int id and a String column
+
+
+    /**
+     * General insert, Only works with tables that have an Int id and one String column
+     *
+     * @param table The name of the dataTable
+     * @param text The string value to insert
+     * @return The row id
+     */
     public long insertRow(String table, String text){
         ContentValues initialValues = new ContentValues();
         String columnName = tables.get(table)[1];
@@ -148,7 +164,16 @@ public class DataBase {
         return db.insert(table, null, initialValues);
     }
 
-    //insert a row on the Answer Table
+
+
+    /**
+     * insert a row on the Answer Table
+     *
+     * @param Sid The row id of the session this answer belongs to
+     * @param Qid The row id of the question this answer belongs to
+     * @param ans The value of the Answer, should be either Y, N, NA
+     * @return The Row id of this answer
+     */
     public long insertAnswer(int Sid, int Qid, String ans){
         ContentValues initialValues = new ContentValues();
         Cursor c = getAnswer(Qid, Sid);
@@ -167,19 +192,34 @@ public class DataBase {
 
     }
 
-    //insert a row to the Session Table
+
+
+    /**
+     * insert a row to the Session Table
+     *
+     * @param name The name of the session (e.g. Assessment 1)
+     * @param date The date the session was last worked on
+     * @param sectorSubSectorID The id of the SectorSubSector that belong to this session
+     * @return  The row id of this session
+     */
     public long insertSession(String name, String date, int sectorSubSectorID){
         ContentValues initialValues = new ContentValues();
         initialValues.put(Key_SESSION_NAME, name);
         initialValues.put(Key_Date, date);
-        //initialValues.put(Key_SECTOR_ID, sectorID);
-        //initialValues.put(Key_Sub_Sector_ID, subSectorID);
         initialValues.put(Key_SECTOR_SUBSECTOR_ID, sectorSubSectorID);
 
         return db.insert(SESSION_TABLE, null, initialValues);
     }
 
-    //insert a Sector vs Subsector Row
+
+
+    /**
+     * insert mapping from a sector to a subsector
+     *
+     * @param SID The id of the sector
+     * @param SubSID The id of the subSector
+     * @return The row id of the mapping
+     */
     public long insertSectorSubSector(int SID, int SubSID){
         ContentValues initialValues = new ContentValues();
         initialValues.put(Key_SECTOR_ID, SID);
@@ -188,20 +228,39 @@ public class DataBase {
         return db.insert(SECTOR_SUB_SECTOR_TABLE, null, initialValues);
     }
 
-    //This delete can be used for the QTable, Sector Tables, and SessionTable
+
+
+    /**
+     * Delete a row from a table
+     *
+     * @param table The name of the dataTable
+     * @param rowID The id of the row to be deleted
+     * @return A true of false value as to the sucess of the deletion
+     */
     public boolean deleteRow(String table, long rowID){
         String where = Key_ROWID + " = " + rowID;
         return db.delete(table, where, null) > 0;
     }
 
     //Delete an Answer
+
+    /**
+     * Delete an Answer from the AnswerTable
+     * @param qID The id of the Question it belongs to
+     * @param sID The id of the Session it belongs to
+     * @return The success of the deletion as a boolean
+     */
     public boolean deleteAnswer(int qID, int sID){
         String where = Key_QID + " = " + qID;
         where += " AND " + Key_SID + " = " + sID;
         return db.delete(ATABLE, where, null) > 0;
     }
 
-    //works with all tables
+    /**
+     * Delete all the rows in a table
+     *
+     * @param table The name of the table to be deleted
+     */
     public void deleteAll(String table){
         Cursor c = getAllRows(table);
         long rowId = c.getColumnIndexOrThrow(Key_ROWID);
@@ -213,7 +272,13 @@ public class DataBase {
         c.close();
     }
 
-    //Works for all tables
+
+    /**
+     * Get all the rows from a table
+     *
+     * @param table The name of the table
+     * @return A Cursor object with all the rows
+     */
     public Cursor getAllRows(String table){
         String keys[] = tables.get(table);
         Cursor c = db.query(true, table, keys, null, null, null, null, null, null);
@@ -223,7 +288,13 @@ public class DataBase {
         return c;
     }
 
-    //Works with all tables except Answer, and Sector-SubSector
+    /**
+     * Gets a single row from a table according to a row id
+     *
+     * @param table The name of the table
+     * @param rowId The id of the row
+     * @return A Cursor with that row
+     */
     public Cursor getRow(String table, long rowId){
         String where = Key_ROWID + " = " + rowId;
         String keys[] = tables.get(table);
@@ -234,6 +305,17 @@ public class DataBase {
         return c;
     }
 
+    /**
+     * Get The rows tht match the associating text
+     *
+     * Carefull with this one! the text is matched with that of the second column in the table, if
+     * the second column is not a string value then this function will throw an exception and the
+     * program will probably crash
+     *
+     * @param table The name of the table
+     * @param text The text that will be compared to the dataTable
+     * @return A cursor with the matching rows
+     */
     public Cursor getRow(String table, String text){
         String keys[] = tables.get(table);
         String columnName = keys[1];
@@ -246,15 +328,30 @@ public class DataBase {
         return c;
     }
 
+    /**
+     * Get the sub-sectors that map to a specific sector
+     *
+     * @param sectorID The id of the sector
+     * @return A cursor with all the sub-sectors that match that sector
+     */
     public Cursor getSubSectors(long sectorID){
         String where = Key_SECTOR_ID + " = " + sectorID;
         Cursor c = db.query(true, SECTOR_SUB_SECTOR_TABLE, ALL_SECTOR_SUBSECTOR_KEYS, where, null, null, null, null, null);
-        if(c.getCount() == 0)
+        if(c.getCount() <= 0)
             return null;
 
         return c;
     }
 
+    /**
+     * Get the Answer that is associated with a question and session
+     *
+     * Returns null if no answer yet exists
+     *
+     * @param qID The question id
+     * @param sID The session id
+     * @return A Cursor with the row that matches the two parameters
+     */
     public Cursor getAnswer(int qID, int sID){
         String where = Key_QID + " = " + qID;
         where += " AND " + Key_SID + " = " + sID;
@@ -267,6 +364,12 @@ public class DataBase {
         return c;
     }
 
+    /**
+     * Get all the Answers pertaining to a particular session
+     *
+     * @param sID The session id
+     * @return A Cursor with all the rows that pertain to this session
+     */
     public Cursor getAllAnswers(int sID) {
         String where = Key_SID + " = " + sID;
 
@@ -279,17 +382,14 @@ public class DataBase {
         return c;
     }
 
-
-    /*
-    public boolean updateRow(long rowId, String text, String Answer){
-        String where = Key_ROWID + " = " + rowId;
-        ContentValues  newValues = new ContentValues();
-        newValues.put(Key_QUESTION_TEXT, text);
-        newValues.put(Key_QUESTION_ANSWER, Answer);
-
-        return db.update(QTABLE, newValues, where, null) > 0;
-    }*/
-
+    /**
+     * Update the Answer to a question
+     *
+     * @param qID The question id
+     * @param sID The current session id
+     * @param ans The new answer
+     * @return The success of the update as a bool
+     */
     public boolean updateAnswer(long qID, long sID, String ans){
         String where = Key_QID + " = " + qID;
         where += " AND " + Key_SID + " = " + sID;
@@ -299,6 +399,14 @@ public class DataBase {
         return db.update(ATABLE, newValues, where, null) > 0;
     }
 
+    /**
+     * Update the Session information
+     *
+     * @param rowId The session id
+     * @param date  The new date
+     * @param sectorSubSectorID The new sectorSubsector map id
+     * @return The sucess of the update as a bool
+     */
     public boolean updateSession(long rowId, String date, long sectorSubSectorID){
         String where = Key_ROWID + " = " + rowId;
 

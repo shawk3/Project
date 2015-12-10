@@ -21,6 +21,10 @@ import android.support.v7.app.ActionBar;
 
 import org.w3c.dom.Text;
 
+/**
+ * @author Adam
+ * @since 2015-11
+ */
 public class QuestionActivity extends AppCompatActivity {
     private static final String TAG = QuestionActivity.class.getSimpleName();
     Cursor index;

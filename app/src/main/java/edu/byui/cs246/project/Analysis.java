@@ -14,6 +14,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * @author Kyle
+ * @since 2015-11
+ */
 public class Analysis extends AppCompatActivity {
     SharedPreferences settings;
     int sessionID;
@@ -50,6 +54,15 @@ public class Analysis extends AppCompatActivity {
         drawPercent(height);
     }
 
+    /**
+     * Get the counts of each answer of this session
+     *
+     * Loops through the dataTable and counts how many of each answer there are. It also counts
+     * how many questions there are so that it can calculate how many unanswered questions there
+     * are.
+     *
+     * @return The counts of Yes, no,... answers there are.
+     */
     private int[] getHeights() {
         int heights[] = new int[4];
         DataBase db = new DataBase(this);
@@ -112,6 +125,16 @@ public class Analysis extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Draw the Graph
+     *
+     * Create a rectangle of the appropriate height and color
+     *
+     *
+     * @param count
+     * @param drawableId
+     * @param height The Count of questions with the same answer
+     */
     private void drawChart(int count, int drawableId, int height) {
         //System.out.println(count+color+height);
         //color = Color.BLUE;
@@ -128,6 +151,9 @@ public class Analysis extends AppCompatActivity {
         la.addView(view);
     }
 
+    /**
+     * Draw the key to our graph
+     */
     private void drawKey(){
         key.addView(smallView(Color.GREEN,100));
         key.addView(textKey("Yes", 100));
@@ -139,7 +165,11 @@ public class Analysis extends AppCompatActivity {
         key.addView(textKey("UnAnswered", 250));
     }
 
-
+    /**
+     * Calculate and display the percentage of passed questions the User achieved.
+     *
+     * @param height A list of [Yes, No, NA, U] counts
+     */
     private void drawPercent(int height[]) {
         int percent;
         if((height[0] + height[1] + height[3]) == 0)
@@ -159,6 +189,16 @@ public class Analysis extends AppCompatActivity {
         percentText.setText(String.valueOf(percent) + "% Passed");
     }
 
+    /**
+     * Create a Key text view.
+     *
+     * This view will be used in the key as descriptive text. It will sit next to a little colored
+     * box
+     *
+     * @param text The text to insert
+     * @param size The length of the text
+     * @return A View
+     */
     private TextView textKey(String text, int size){
         TextView view = new TextView(this);
         view.setText(text);
@@ -168,11 +208,16 @@ public class Analysis extends AppCompatActivity {
         params.setMargins(30, 0, 10, 0);
         view.setLayoutParams(params);
 
-
-
         return view;
     }
 
+    /**
+     * Create a little box of a specific color to be inserted in the key
+     *
+     * @param color The color the box will be
+     * @param leftMargin The Left Margin size
+     * @return A little box View
+     */
     private View smallView(int color, int leftMargin){
         View view = new View(this);
         view.setLayoutParams(new LinearLayout.LayoutParams(20, 20));

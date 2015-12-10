@@ -1,5 +1,6 @@
 package edu.byui.cs246.project;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -72,6 +73,8 @@ public class loadScreen extends AppCompatActivity {
                         SharedPreferences.Editor edit = settings.edit();
                         edit.putInt("Session", s);
                         edit.commit();
+
+                        startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
 
                         System.exit(0);
                     }

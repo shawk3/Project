@@ -22,6 +22,7 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity {
     DataBase db;
+    Cursor check;
     SharedPreferences settings;
     int session;
 
@@ -37,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("settingsFile", 0);
         session = settings.getInt("Session", 0);
         db = new DataBase(this);
+
+        //check if data tables need to be initialized
+        db.open();
+        if (db.getAllRows(db.QTABLE).getCount() <= 0){
+            DataBaseCreator creator = new DataBaseCreator(db);
+            creator.create();
+        }
     }
 
     @Override
@@ -111,11 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Only used to create database
     public void clickCreateDataBase(View v){
-        DataBaseCreator creator = new DataBaseCreator(db);
-
-        if (creator != null) {
+            DataBaseCreator creator = new DataBaseCreator(db);
             creator.create();
-        }
     }
 
     /**

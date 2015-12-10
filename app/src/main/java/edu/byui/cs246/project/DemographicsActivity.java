@@ -32,7 +32,7 @@ import java.util.List;
  */
 import edu.byui.cs246.project.SectorAdapter;
 
-public class DemographicsActivity extends AppCompatActivity implements ItemFragment.OnFragmentInteractionListener {
+public class DemographicsActivity extends AppCompatActivity {
 
     DataBase db;
     SharedPreferences settings;
@@ -50,7 +50,6 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
     ExpandableListView sectorList;
     SectorAdapter sectorAdapter;
 
-    ItemFragment listFrag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,11 +131,6 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
                 return false;
         }
         return true;
-    }
-
-    @Override
-    public void onFragmentInteraction(String id) {
-
     }
 
     //Example function

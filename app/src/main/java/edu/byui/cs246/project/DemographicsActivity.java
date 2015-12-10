@@ -70,11 +70,18 @@ public class DemographicsActivity extends AppCompatActivity {
         sectorAdapter = new SectorAdapter(this, Sector_And_Subs, Sector_List);
         sectorList.setAdapter(sectorAdapter);
 
+        sectorList.setOnItemClickListener(new ListView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
+            }
+        });
         sectorList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                v.setSelected(true);
                 Toast.makeText(getBaseContext(), Sector_And_Subs.get(Sector_List.get(groupPosition)).get(childPosition) + " was clicked", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
+                //startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
                 return true;
             }
         });

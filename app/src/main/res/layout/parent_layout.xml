@@ -12,6 +12,6 @@
         android:textColor="?attr/colorPrimaryDark"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="@android:drawable/list_selector_background"
+        android:background="@drawable/list_selector"
         />
 </LinearLayout>

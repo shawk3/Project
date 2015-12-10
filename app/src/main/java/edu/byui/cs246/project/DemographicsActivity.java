@@ -69,6 +69,15 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
         sectorAdapter = new SectorAdapter(this, Sector_And_Subs, Sector_List);
         sectorList.setAdapter(sectorAdapter);
 
+        sectorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
+                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
+
+            }
+        });
+
         /*sectorList = (ExpandableListView) findViewById(R.id.sectorList);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sectors);
         sectorList.setAdapter(adapter);

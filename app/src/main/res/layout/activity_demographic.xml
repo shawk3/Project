@@ -24,6 +24,7 @@
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         android:divider="?attr/colorPrimaryDark"
         android:dividerHeight="0.5dp"
+        android:choiceMode = "singleChoice"
         ></ExpandableListView>
 
 

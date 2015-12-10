@@ -70,10 +70,27 @@ public class DemographicsActivity extends AppCompatActivity {
         sectorAdapter = new SectorAdapter(this, Sector_And_Subs, Sector_List);
         sectorList.setAdapter(sectorAdapter);
 
-        sectorList.setOnItemClickListener(new ListView.OnItemClickListener(){
+/*        sectorList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 view.setSelected(true);
+            }
+        });
+        sectorList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                v.setBackgroundColor(R.color.colorGreen1);
+                return true;
+            }
+        });
+*/
+        sectorList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                //allow only one sector to be open at a time
+                for(int i = 0; i <=15; i++)
+                    if(i != groupPosition)
+                        sectorList.collapseGroup(i);
             }
         });
         sectorList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {

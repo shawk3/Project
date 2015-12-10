@@ -88,4 +88,10 @@ public class loadScreen extends AppCompatActivity {
 
     }
 
+    public void clickClear(View v){
+        DataBaseCreator creator = new DataBaseCreator(db);
+        creator.create();
+        System.exit(0);
+    }
+
 }

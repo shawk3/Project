@@ -187,7 +187,7 @@ public class DataBaseCreator {
         createSectors();
         createSubSectors();
         createSectorSubSectorMap();
-        createSessions();
+        //createSessions();
         dataBase.close();
 
 

@@ -337,7 +337,7 @@ public class DataBase {
     public Cursor getSubSectors(long sectorID){
         String where = Key_SECTOR_ID + " = " + sectorID;
         Cursor c = db.query(true, SECTOR_SUB_SECTOR_TABLE, ALL_SECTOR_SUBSECTOR_KEYS, where, null, null, null, null, null);
-        if(c.getCount() == 0)
+        if(c.getCount() <= 0)
             return null;
 
         return c;

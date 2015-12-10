@@ -115,25 +115,26 @@ public class DataBaseCreator {
                         "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment",
                         "Law Enforcement", "Fire and Emergency Services", "Emergency Management", "Emergency Medical Services", "Public Works",
                         "Electricity", "Petroleum", "Natural Gas", "Education Facilities", "National Monuments", "Aviation",
-                        "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",};
+                        "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",
+                        "Private Sector", "Public Sector"};
 
     int[][] map = new int[][]{{0,0},
             {1,1},{1,2},{1,3},{1,4},{1,5},
             {2,6},{2,7},{2,8},{2,9},{2,10},{2,11},{2,12},{2,13},
-            {3,0},
+            {3,35},
             {4,14},{4,15},{4,16},{4,17},
-            {5,0},
-            {6,0},
+            {5,35},
+            {6,35},{6,36},
             {7,18},{7,19},{7,20},{7,21},{7,22},
             {8,23},{8,24},{8,25},
-            {9,0},
-            {10,0},
+            {9,36},
+            {10,36},
             {11,26},{11,27},
-            {12,0},
-            {13,0},
-            {14,0},
+            {12,36},
+            {13,35},{13,36},
+            {14,35},
             {15,28},{15,29},{15,30},{15,31},{15,32},{15,33},{15,34},
-            {16,0}};
+            {16,35}};
 
 
     String questions[] = new String[]{"Have all default passwords been changed?",

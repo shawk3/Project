@@ -35,11 +35,11 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
     DataBase db;
     SharedPreferences settings;
     int sessionID;
-    String[] sectors = {"Chemical", "Commercial Facilities", "Communications",
+    /*String[] sectors = {"Chemical", "Commercial Facilities", "Communications",
             "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
             "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
             "Healthcare and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
-            "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};
+            "Sector-Specific Agencies", "Transportation Systems", "Water and Wastewater Systems"};*/
 
 
     //ArrayAdapter<String> adapter;
@@ -64,19 +64,10 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
         sessionID = settings.getInt("Session", 0);
 
         sectorList = (ExpandableListView) findViewById(R.id.sectorList);
-        Sector_And_Subs = DataBaseCreator.getInfo();
+        Sector_And_Subs = getInfo();
         Sector_List = new ArrayList<String>(Sector_And_Subs.keySet());
         sectorAdapter = new SectorAdapter(this, Sector_And_Subs, Sector_List);
         sectorList.setAdapter(sectorAdapter);
-
-        sectorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                view.setSelected(true);
-                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
-
-            }
-        });
 
         /*sectorList = (ExpandableListView) findViewById(R.id.sectorList);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sectors);
@@ -140,5 +131,40 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
 
 
 
+    }
+
+    public HashMap<String, List<String>> getInfo() {
+        HashMap<String, List<String>> Sectors_And_Subs = new HashMap<String, List<String>>();
+
+        Cursor sect = db.getAllRows(db.SECTOR_TABLE);
+        sect.moveToFirst();
+
+        do{
+            String sectorName = sect.getString(db.COL_SECTOR);
+            List<String> subList = new ArrayList<String>();
+
+            if(!sectorName.equals("Default")) {
+                int Sid = sect.getInt(db.COL_ROWID);
+                Cursor subSIDs = db.getSubSectors(Sid);
+
+
+                if (subSIDs != null) {
+                    subSIDs.moveToFirst();
+                    do {
+                        int subId = subSIDs.getInt(db.COL_SUB_SECTOR_ID);
+                        Cursor sub = db.getRow(db.SUB_SECTOR_TABLE, subId);
+                        String subSectorName = sub.getString(db.COL_SUB_SECTOR);
+                        if(subSectorName.equals("Default"))
+                            subSectorName = "No Sub-Sectors listed for this Sector";
+                        subList.add(subSectorName);
+                    } while (subSIDs.moveToNext());
+                }
+
+
+                Sectors_And_Subs.put(sectorName, subList);
+            }
+        } while(sect.moveToNext());
+
+        return Sectors_And_Subs;
     }
 }

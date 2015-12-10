@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         String date = "Today";
         db.open();
-        Cursor c = db.getRow(db.SECTOR_TABLE, "Default");
+        Cursor c = db.getSectorSubSectorMap("Default", "Default");
 
         int sssid = c.getInt(db.COL_ROWID);
 

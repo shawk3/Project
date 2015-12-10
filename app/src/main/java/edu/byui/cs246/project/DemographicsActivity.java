@@ -16,10 +16,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +38,7 @@ import edu.byui.cs246.project.SectorAdapter;
 public class DemographicsActivity extends AppCompatActivity {
 
     DataBase db;
+    DemographicsData data;
     SharedPreferences settings;
     int sessionID;
     /*String[] sectors = {"Chemical", "Commercial Facilities", "Communications",
@@ -61,42 +65,72 @@ public class DemographicsActivity extends AppCompatActivity {
         db = new DataBase(this);
         db.open();
 
+
         settings = getSharedPreferences("settingsFile", 0);
         sessionID = settings.getInt("Session", 0);
 
+        data = new DemographicsData(db, sessionID);
+
         sectorList = (ExpandableListView) findViewById(R.id.sectorList);
-        Sector_And_Subs = getInfo();
+        Sector_And_Subs = data.createMapList();
         Sector_List = new ArrayList<String>(Sector_And_Subs.keySet());
         sectorAdapter = new SectorAdapter(this, Sector_And_Subs, Sector_List);
-        sectorList.setAdapter(sectorAdapter);
 
-        sectorList.setOnItemClickListener(new ListView.OnItemClickListener(){
+        /*Cursor d = db.getRow(db.SESSION_TABLE, sessionID);
+        if(d != null){
+            int sssID = d.getInt(db.COL_SECTOR_SUB_SECTOR_ID);
+            Cursor c = db.getRow(db.SECTOR_SUB_SECTOR_TABLE, sssID);
+            if(c != null){
+                int sid = c.getInt(db.COL_SECTOR_ID);
+                int subid = c.getInt(db.COL_SUB_SECTOR_ID);
+
+                String sID = db.getRow(db.SECTOR_TABLE, sid).getString(db.COL_SECTOR);
+                String subID = db.getRow(db.SUB_SECTOR_TABLE, subid).getString(db.COL_SUB_SECTOR);
+
+                sectorAdapter.setDefault(sID, subID);
+            }
+
+        }*/
+        sectorAdapter.setDefault(data.getSectorName(), data.getSubSectorName());
+        sectorList.setAdapter(sectorAdapter);
+        int g = sectorAdapter.getDefaultGroup();
+        if(g >= 0)
+            sectorList.expandGroup(g);
+
+
+        /*sectorList.setOnItemClickListener(new ListView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 view.setSelected(true);
+                int i = view.getId();
             }
-        });
+        });*/
         sectorList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 v.setSelected(true);
                 Toast.makeText(getBaseContext(), Sector_And_Subs.get(Sector_List.get(groupPosition)).get(childPosition) + " was clicked", Toast.LENGTH_LONG).show();
+                String sid = sectorAdapter.getGroup(groupPosition).toString();
+                String subID = sectorAdapter.getChild(groupPosition, childPosition).toString();
+                data.updateSession(sid, subID);
+
                 //startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
                 return true;
             }
         });
 
-      /*  sectorList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        /*sectorList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if(Sector_List.get(groupPosition).isEmpty()){
-                    startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
+                //if(Sector_List.get(groupPosition).isEmpty()){
+                    v.setSelected(true);
+                sectorList.expandGroup(groupPosition);
+                    //startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
                     return true;
-                }
-                return true;
+                //}
             }
-        });
-*/
+        });*/
+
         /*sectorList = (ExpandableListView) findViewById(R.id.sectorList);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sectors);
         sectorList.setAdapter(adapter);
@@ -141,7 +175,7 @@ public class DemographicsActivity extends AppCompatActivity {
     }
 
     //Example function
-    public void onClick(String text){
+    /*public void onClick(String text){
         List<String> subSectors= new ArrayList<String>();
 
         Cursor SidCursor = db.getRow(db.SECTOR_TABLE, text);
@@ -154,9 +188,9 @@ public class DemographicsActivity extends AppCompatActivity {
 
 
 
-    }
+    }*/
 
-    public HashMap<String, List<String>> getInfo() {
+    /*public HashMap<String, List<String>> getInfo() {
         HashMap<String, List<String>> Sectors_And_Subs = new HashMap<String, List<String>>();
 
         Cursor sect = db.getAllRows(db.SECTOR_TABLE);
@@ -189,5 +223,5 @@ public class DemographicsActivity extends AppCompatActivity {
         } while(sect.moveToNext());
 
         return Sectors_And_Subs;
-    }
+    }*/
 }

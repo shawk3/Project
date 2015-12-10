@@ -23,7 +23,7 @@ public class DataBase {
     public static final String SUB_SECTOR_TABLE = "SubSectorTable";
     public static final String SECTOR_SUB_SECTOR_TABLE = "SectorSubSectorTable";
     public static final String SESSION_TABLE = "STable";
-    public static final int VERSION = 4;
+    public static final int VERSION = 5;
 
     //All Tables
     public static final String Key_ROWID = "id";
@@ -299,9 +299,10 @@ public class DataBase {
         String where = Key_ROWID + " = " + rowId;
         String keys[] = tables.get(table);
         Cursor c = db.query(true, table, keys , where, null, null, null, null, null);
-        if(c != null){
-            c.moveToFirst();
+        if(c.getCount() <= 0){
+            return null;
         }
+        c.moveToFirst();
         return c;
     }
 
@@ -322,9 +323,10 @@ public class DataBase {
         String where = columnName + " = '" + text + "'";
 
         Cursor c = db.query(true, table, keys, where, null, null, null, null, null);
-        if(c != null){
-            c.moveToFirst();
+        if(c.getCount() <= 0){
+            return null;
         }
+        c.moveToFirst();
         return c;
     }
 
@@ -340,6 +342,7 @@ public class DataBase {
         if(c.getCount() <= 0)
             return null;
 
+        c.moveToFirst();
         return c;
     }
 
@@ -361,6 +364,26 @@ public class DataBase {
         }
         if(c.getCount() == 0)
             return null;
+        return c;
+    }
+
+    public Cursor getSectorSubSectorMap(int sID, int subID){
+        String where = Key_SECTOR_ID + " = " + sID;
+        where += " AND " + Key_Sub_Sector_ID + " = " + subID;
+        Cursor c = db.query(true, SECTOR_SUB_SECTOR_TABLE, ALL_SECTOR_SUBSECTOR_KEYS , where, null, null, null, null, null);
+        if(c != null){
+            c.moveToFirst();
+        }
+        if(c.getCount() == 0)
+            return null;
+        return c;
+    }
+
+    public Cursor getSectorSubSectorMap(String sector, String subSector){
+        int sID = getRow(SECTOR_TABLE, sector).getInt(COL_ROWID);
+        int subID = getRow(SUB_SECTOR_TABLE, subSector).getInt(COL_ROWID);
+
+        Cursor c = getSectorSubSectorMap(sID, subID);
         return c;
     }
 

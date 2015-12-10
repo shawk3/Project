@@ -100,7 +100,10 @@ public class MainActivity extends AppCompatActivity {
     // Only used to create database
     public void clickCreateDataBase(View v){
         DataBaseCreator creator = new DataBaseCreator(db);
-        creator.create();
+
+        if (creator != null) {
+            creator.create();
+        }
     }
 
     public void clickContinue(View v){

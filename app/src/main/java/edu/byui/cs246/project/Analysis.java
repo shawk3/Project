@@ -142,7 +142,10 @@ public class Analysis extends AppCompatActivity {
 
     private void drawPercent(int height[]) {
         int percent;
-        percent = (100 * height[0]) / (height[0] + height[1] + height[3]);
+        if((height[0] + height[1] + height[3]) == 0)
+            percent = (100 * height[0]) / (height[0] + height[1] + height[3]);
+        else
+            percent = 0;
 
         TextView percentText = (TextView) findViewById(R.id.percentText);
 

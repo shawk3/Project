@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,15 +67,26 @@ public class DemographicsActivity extends AppCompatActivity implements ItemFragm
         sectorAdapter = new SectorAdapter(this, Sector_And_Subs, Sector_List);
         sectorList.setAdapter(sectorAdapter);
 
-        sectorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        sectorList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                view.setSelected(true);
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Toast.makeText(getBaseContext(), Sector_And_Subs.get(Sector_List.get(groupPosition)).get(childPosition) + " was clicked", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
-
+                return true;
             }
         });
 
+      /*  sectorList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if(Sector_List.get(groupPosition).isEmpty()){
+                    startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
+                    return true;
+                }
+                return true;
+            }
+        });
+*/
         /*sectorList = (ExpandableListView) findViewById(R.id.sectorList);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sectors);
         sectorList.setAdapter(adapter);

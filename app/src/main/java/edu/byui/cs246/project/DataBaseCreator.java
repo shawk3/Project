@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class DataBaseCreator {
 
-    public static HashMap<String, List<String>> getInfo() {
+    /*public static HashMap<String, List<String>> getInfo() {
         HashMap<String, List<String>> Sectors_And_Subs = new HashMap<String, List<String>>();
 
         List<String> Chemical = new ArrayList<String>();
@@ -102,7 +102,7 @@ public class DataBaseCreator {
         Sectors_And_Subs.put("Water and Wasterwater Systems", Water);
 
         return Sectors_And_Subs;
-    }
+    }*/
 
     String[] demographics = {"Default", "Chemical", "Commercial Facilities", "Communications",
             "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",

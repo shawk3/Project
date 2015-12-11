@@ -17,6 +17,13 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 /**
+ * Loads different profiles.
+ *
+ * The purpose of ths activity is to let users load different profiles. The database is examined,
+ * and a button is created for each profile. Clicking on these buttons will load the corresponding
+ * profile and starts the question activity. If there are no profiles a message indicating this will
+ * be displayed.
+ *
  * @author Kyle
  * @since 2015-11
  */
@@ -25,6 +32,14 @@ public class loadScreen extends AppCompatActivity {
     int session = 0;
     SharedPreferences settings;
 
+    /**
+     * Does the work to be done at the start of the activity.
+     *
+     * At the start of the activity, the layout is selected. Then, the creation of the profile
+     * buttons or displaying of empty profile message is managed.
+     *
+     * @param savedInstanceState    A way of receiving data from the calling activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +53,7 @@ public class loadScreen extends AppCompatActivity {
         final Cursor c = db.getAllRows(db.SESSION_TABLE);
         TableLayout table = (TableLayout) findViewById(R.id.table);
 
+        //if there are no profiles display the corresponding message
         if(c.getCount() == 0){
             TableRow tR = new TableRow(this);
 
@@ -49,6 +65,7 @@ public class loadScreen extends AppCompatActivity {
             table.addView(tR);
             //display text "no previous files"
         }
+        //display a button for each existing profile
         else{
             c.moveToFirst();
 
@@ -88,6 +105,14 @@ public class loadScreen extends AppCompatActivity {
 
     }
 
+    /**
+     * Clears all profiles.
+     *
+     * This will erase all current profiles from the database. It will also exit the load screen
+     * activity.
+     *
+     * @param v Represents the "clear.b" button and is needed to interact with it.
+     */
     public void clickClear(View v){
         DataBaseCreator creator = new DataBaseCreator(db);
         creator.create();

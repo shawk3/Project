@@ -74,53 +74,6 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     /**
-     * Inflates and prepares the action bar.
-     * @param menu  A variable representing the action bar
-     * @return      The return value for this overridden method. Not used in this application.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        menu.findItem(R.id.action_questions).setEnabled(false);
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-        return true;
-    }
-
-    /**
-     * Preforms actions when the action bar is clicked.
-     *
-     * This action bar is used for traveling between activities. Each item in the action bar menu
-     * represents a different activity clicking on that item will start the desired activity.
-     *
-     * @param item  Represents the action bar menu item that was clicked.
-     * @return      Returns true if a menu action was successfully completed.
-     */
-    public boolean onOptionsItemSelected (MenuItem item) {
-        //save current answer beforepage switch
-        saveAnswer();
-
-        //switch to the appropriate page
-        switch(item.getItemId()) {
-            case R.id.action_main:
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                break;
-            case R.id.action_demographics:
-                startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
-                break;
-            case R.id.action_questions:
-                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
-                break;
-            case R.id.action_analysis:
-                startActivity(new Intent(getApplicationContext(), Analysis.class));
-                break;
-            default:
-                return false;
-        }
-        return true;
-    }
-
-    /**
      * Retrieves Question set from its source.
      *
      * In this case that source is the data base.
@@ -308,5 +261,50 @@ public class QuestionActivity extends AppCompatActivity {
             assert (toTest.index.getPosition() >= 1);
         }
     }
+    /**
+     * Inflates and prepares the action bar.
+     * @param menu  A variable representing the action bar
+     * @return      The return value for this overridden method. Not used in this application.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        menu.findItem(R.id.action_questions).setEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        return true;
+    }
 
+    /**
+     * Preforms actions when the action bar is clicked.
+     *
+     * This action bar is used for traveling between activities. Each item in the action bar menu
+     * represents a different activity clicking on that item will start the desired activity.
+     *
+     * @param item  Represents the action bar menu item that was clicked.
+     * @return      Returns true if a menu action was successfully completed.
+     */
+    public boolean onOptionsItemSelected (MenuItem item) {
+        //save current answer beforepage switch
+        saveAnswer();
+
+        //switch to the appropriate page
+        switch(item.getItemId()) {
+            case R.id.action_main:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                break;
+            case R.id.action_demographics:
+                startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
+                break;
+            case R.id.action_questions:
+                startActivity(new Intent(getApplicationContext(), QuestionActivity.class));
+                break;
+            case R.id.action_analysis:
+                startActivity(new Intent(getApplicationContext(), Analysis.class));
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
 }

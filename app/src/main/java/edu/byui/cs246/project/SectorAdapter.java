@@ -17,17 +17,36 @@ import java.util.List;
 import edu.byui.cs246.project.R;
 
 /**
- * Created by Jason on 12/9/2015.
+ * adapter for ExpandableListView
+ *
+ * this class allows users to interact with the ExpandableLIstView found
+ * in the Demographics Activity
+ *
+ * @author Jason
+ * @since 2015-12
  */
 public class SectorAdapter extends BaseExpandableListAdapter {
 
+    /** context variable */
     private Context ctx;
+    /** HashMap for sectors and sub-sectors*/
     private HashMap<String, List<String>> Sectors;
+    /** list of sectors */
     private List<String> Sector_List;
+    /** string for sector with no sub-sectors */
     String defaultSector;
+    /** no sub-sector group */
     int defaultGroup;
+    /** string for no sub-sector */
     String defaultSubSect;
 
+    /**
+     * Non-default constructor for adapter
+     *
+     * @param ctx
+     * @param Sectors
+     * @param Sector_List
+     */
     public SectorAdapter(Context ctx, HashMap<String, List<String>> Sectors, List<String> Sector_List){
         this.ctx = ctx;
         this.Sectors = Sectors;
@@ -81,6 +100,15 @@ public class SectorAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    /**
+     * return sector view
+     *
+     * @param parent
+     * @param isExpanded
+     * @param convertView
+     * @param parentview
+     * @return
+     */
     @Override
     public View getGroupView(int parent, boolean isExpanded, View convertView, ViewGroup parentview) {
         String group_title = (String) getGroup(parent);
@@ -96,6 +124,16 @@ public class SectorAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * return sub-sector view
+     *
+     * @param parent
+     * @param child
+     * @param lastChild
+     * @param convertView
+     * @param parentview
+     * @return
+     */
     @Override
     public View getChildView(int parent, int child, boolean lastChild, View convertView, ViewGroup parentview) {
         String child_title = (String) getChild(parent, child);
@@ -114,12 +152,27 @@ public class SectorAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * child is selectable
+     *
+     * @param groupPosition
+     * @param childPosition
+     * @return
+     */
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
 
         return true;
     }
 
+    /**
+     * setter
+     *
+     * sets default group
+     *
+     * @param sID
+     * @param subID
+     */
     public void setDefault(String sID, String subID){
         defaultSector = sID;
         defaultSubSect = subID;
@@ -127,5 +180,12 @@ public class SectorAdapter extends BaseExpandableListAdapter {
         setDefaultGroup();
     }
 
-    public int getDefaultGroup(){return defaultGroup; };
+    /**
+     * getter
+     *
+     * return default group
+     *
+     * @return
+     */
+    public int getDefaultGroup(){return defaultGroup; }
 }

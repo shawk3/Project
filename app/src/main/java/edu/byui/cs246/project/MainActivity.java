@@ -17,13 +17,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
+ * Class for the creation of the main page
+ *
+ * creates the main page allowing the user to create a new profile or
+ * load a previous profile
+ *
  * @author Kyle
  * @since 2015-10-31
  */
 public class MainActivity extends AppCompatActivity {
+    /** database */
     DataBase db;
+    /** cursor for database */
     Cursor check;
+    /** storing sessions */
     SharedPreferences settings;
+    /** profile id */
     int session;
 
     @Override
@@ -45,6 +54,93 @@ public class MainActivity extends AppCompatActivity {
             DataBaseCreator creator = new DataBaseCreator(db);
             creator.create();
         }
+    }
+
+
+    /**
+     * call the load activity
+     *
+     * If the user pushes the load button this function calls the load activity
+     *
+     * @param v which is the view that calls this function
+     */
+    public void clickLoad(View v){
+
+        startActivity(new Intent(getApplicationContext(), loadScreen.class));
+
+    }
+
+    /**
+     * Allow the user to start a new session
+     *
+     * If the user clicks the new button then we set a few controls to visible, enabling them to
+     * create a new session. The three controls are an instruction textbox, an input textbox, and a
+     * button labeled continue.
+     *
+     * @param v
+     */
+    public void clickNew(View v){
+
+        TextView Instructions = (TextView) findViewById(R.id.enterName_t);
+        Instructions.setVisibility(View.VISIBLE);
+
+        EditText profileText = (EditText) findViewById(R.id.sesname_t);
+        profileText.setVisibility(View.VISIBLE);
+
+        Button continueButton = (Button) findViewById(R.id.continue_b);
+        continueButton.setVisibility(View.VISIBLE);
+
+    }
+
+    /**
+     * only use to create database
+     *
+     * @param v
+     */
+    public void clickCreateDataBase(View v){
+            DataBaseCreator creator = new DataBaseCreator(db);
+            creator.create();
+    }
+
+    /**
+     * create the new session and move to the demographics page in order to get the remaining
+     * data
+     *
+     * @param v is the view that calls this function
+     */
+    public void clickContinue(View v){
+
+        /** enter in a profile */
+        EditText profileText = (EditText) findViewById(R.id.sesname_t);
+        String name = profileText.getText().toString();
+
+        String date = "Today";
+        /** open database */
+        db.open();
+        /** get SectorSubSectorMap */
+        Cursor c = db.getSectorSubSectorMap("Default", "Default");
+
+        /** saving information as session number */
+        int sssid = c.getInt(db.COL_ROWID);
+        long sid = db.insertSession(name, date, sssid);
+
+        /** changing the session */
+        SharedPreferences.Editor edit = settings.edit();
+        edit.putInt("Session", (int) sid);
+        edit.commit();
+
+        /** start Demographics activity */
+        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
+
+    }
+
+    /**
+     * getter to get database
+     *
+     * @return
+     */
+    public DataBase getDataBase(){
+        return db;
     }
 
     /**
@@ -90,82 +186,5 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * call the load activity
-     *
-     * If the user pushes the load button this function calls the load activity
-     *
-     * @param v which is the view that calls this function
-     */
-    public void clickLoad(View v){
-
-        startActivity(new Intent(getApplicationContext(), loadScreen.class));
-
-
-
-    }
-
-    /**
-     * Allow the user to start a new session
-     *
-     * If the user clicks the new button then we set a few controls to visible, enabling them to
-     * create a new session. The three controls are an instruction textbox, an input textbox, and a
-     * button labeled continue.
-     *
-     */
-    public void clickNew(View v){
-
-        TextView Instructions = (TextView) findViewById(R.id.enterName_t);
-        Instructions.setVisibility(View.VISIBLE);
-
-        EditText profileText = (EditText) findViewById(R.id.sesname_t);
-        profileText.setVisibility(View.VISIBLE);
-
-        Button continueButton = (Button) findViewById(R.id.continue_b);
-        continueButton.setVisibility(View.VISIBLE);
-
-    }
-
-
-    // Only used to create database
-    public void clickCreateDataBase(View v){
-            DataBaseCreator creator = new DataBaseCreator(db);
-            creator.create();
-    }
-
-    /**
-     * create the new session and move to the demographics page in order to get the remaining
-     * data
-     *
-     * @param v is the view that calls this function
-     */
-    public void clickContinue(View v){
-
-        EditText profileText = (EditText) findViewById(R.id.sesname_t);
-        String name = profileText.getText().toString();
-
-        String date = "Today";
-        db.open();
-        Cursor c = db.getSectorSubSectorMap("Default", "Default");
-
-        int sssid = c.getInt(db.COL_ROWID);
-
-        long sid = db.insertSession(name, date, sssid);
-
-        SharedPreferences.Editor edit = settings.edit();
-        edit.putInt("Session", (int) sid);
-        edit.commit();
-
-        startActivity(new Intent(getApplicationContext(), DemographicsActivity.class));
-
-    }
-
-
-
-
-
-    public DataBase getDataBase(){
-        return db;
-    }
 
 }

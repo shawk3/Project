@@ -40,13 +40,13 @@
         android:paddingLeft="16dp"
         android:layout_below="@+id/my_toolbar"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/nextText" />
+        android:layout_toStartOf="@+id/next.b" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="&lt;prev"
-        android:id="@+id/prevText"
+        android:id="@+id/prev.b"
         android:layout_marginBottom="55dp"
         android:layout_marginStart="57dp"
         android:clickable="true"
@@ -60,11 +60,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="next>"
-        android:id="@+id/nextText"
+        android:id="@+id/next.b"
         android:clickable="true"
         android:enabled="true"
         android:onClick="nextClick"
-        android:layout_alignTop="@+id/prevText"
+        android:layout_alignTop="@+id/prev.b"
         android:layout_alignStart="@+id/answerButtons"
         android:background="@drawable/blue_button"/>
 
@@ -75,8 +75,8 @@
         android:clickable="false"
         android:layout_marginStart="97dp"
         android:layout_alignTop="@+id/QuestionText"
-        android:layout_toEndOf="@+id/prevText"
-        android:layout_above="@+id/nextText">
+        android:layout_toEndOf="@+id/prev.b"
+        android:layout_above="@+id/next.b">
 
         <RadioButton
             android:layout_width="wrap_content"

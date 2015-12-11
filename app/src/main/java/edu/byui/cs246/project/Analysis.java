@@ -107,7 +107,11 @@ public class Analysis extends AppCompatActivity {
         return heights;
     }
 
-
+    /**
+     * Inflates and prepares the action bar.
+     * @param menu  A variable representing the action bar
+     * @return      The return value for this overridden method. Not used in this application.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -117,7 +121,15 @@ public class Analysis extends AppCompatActivity {
         return true;
     }
 
-
+    /**
+     * Preforms actions when the action bar is clicked.
+     *
+     * This action bar is used for traveling between activities. Each item in the action bar menu
+     * represents a different activity clicking on that item will start the desired activity.
+     *
+     * @param item  Represents the action bar menu item that was clicked.
+     * @return      Returns true if a menu action was successfully completed.
+     */
     public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_main:

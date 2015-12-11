@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.test.InstrumentationTestCase;
@@ -14,25 +12,46 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.support.v7.app.ActionBar;
-
-import org.w3c.dom.Text;
 
 /**
- * @author Adam
+ * Is where the questionnaire is answered by the user.
+ *
+ * In this activity the user is presented with all the questions in the database. They can be
+ * answered "true", "false", "Not applicable" (N/A) or left unanswered. These answers will also be
+ * stored in the database. If the database already has answers stored in it, they will be displayed
+ * along with each question. This activity is a precursor to the analysis activity.
+ *
+ * @author Adam Cameron
  * @since 2015-11
  */
 public class QuestionActivity extends AppCompatActivity {
+
+    /**
+     * Used for the logger.
+     */
     private static final String TAG = QuestionActivity.class.getSimpleName();
+
+    /**
+     * A cursor that holds that current position in the database.
+     */
     Cursor index;
+
     DataBase db;
     SharedPreferences settings;
     int sessionID;
 
 
+    /**
+     * Does the work to be done at the start of the activity.
+     *
+     * At the start of the activity, the layout is selected. The action bar is then is created from
+     * the toolbar in the layout. Data from the previous activities is accessed and the question
+     * display is begun.
+     *
+     * @param savedInstanceState    A way of receiving data from the calling activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getApplicationInfo().targetSdkVersion = 14;                 // To disable the 3-dot menu
@@ -49,6 +68,11 @@ public class QuestionActivity extends AppCompatActivity {
         this.displayQuestion();
     }
 
+    /**
+     * Inflates and prepares the action bar.
+     * @param menu  A variable representing the action bar
+     * @return      The return value for this overridden method. Not used in this application.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -58,7 +82,15 @@ public class QuestionActivity extends AppCompatActivity {
         return true;
     }
 
-
+    /**
+     * Preforms actions when the action bar is clicked.
+     *
+     * This action bar is used for traveling between activities. Each item in the action bar menu
+     * represents a different activity clicking on that item will start the desired activity.
+     *
+     * @param item  Represents the action bar menu item that was clicked.
+     * @return      Returns true if a menu action was successfully completed.
+     */
     public boolean onOptionsItemSelected (MenuItem item) {
         //save current answer beforepage switch
         saveAnswer();
@@ -83,10 +115,11 @@ public class QuestionActivity extends AppCompatActivity {
         return true;
     }
 
-    /***************************************************
-     * Retieve Questions
-     * -Retieves Question set from its source.
-     **************************************************/
+    /**
+     * Retrieves Question set from its source.
+     *
+     * In this case that source is the data base.
+     */
     private void retieveQuestions(){
         db = new DataBase (this);
         db.open();
@@ -101,27 +134,32 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
-    /***************************************************
-     * Previous Click
-     * -Contains instructions for "<prev" click.
-     ***************************************************/
+    /**
+     * Contains instructions for "prev.b" button click.
+     *
+     * @param view  Needed for communication with the button.
+     */
     public void prevClick(View view){
         this.prevQuestion();
     }
 
-    /***************************************************
-     * Next Click
-     * -Contains instructions for "next>" click.
-     ***************************************************/
+
+    /**
+     * Contains instructions for "next.b" button click.
+     *
+     * @param view  Needed for communication with the button.
+     */
     public void nextClick(View view){
         this.nextQuestion();
     }
-    /***************************************************
-     * Previous Question
-     * -Moves to the previous question in the set. Also saves
-     *  answer for current question and displays new
-     *  question.
-     ***************************************************/
+
+
+    /**
+     * Moves to the previous question.
+     *
+     * Moves to the previous question in the database. Also saves answer for current question and
+     * displays new question. If it the first question in the database, it does nothing.
+     */
     private void prevQuestion(){
         if (!index.isFirst()){
             saveAnswer();
@@ -130,12 +168,13 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
-    /***************************************************
-     * Next Question
-     * -Moves to the next question in the set. Also saves
-     *  answer for current question and displays new
-     *  question.
-    ***************************************************/
+    /**
+     * Moves to next question.
+     *
+     * Moves to the next question in the database. Also saves answer for current question and
+     * displays new question. If it is the last question in the data base, this will instead start
+     * the analysis activity.
+     */
     private void nextQuestion(){
             saveAnswer();
         if (!index.isLast()) {
@@ -146,18 +185,19 @@ public class QuestionActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), Analysis.class));
     }
 
-    /***************************************************
-     * Clear Display
-     * -Clears the Radio group display
-    ***************************************************/
+    /**
+     * Clears the Radio group display
+     */
     private void clearDisplay(){
         ((RadioGroup) findViewById(R.id.answerButtons)).clearCheck();
     }
 
-    /***************************************************
-     * Save Answer
-     * -Saves currently selected answer
-    ***************************************************/
+
+    /**
+     * Saves currently selected answer.
+     *
+     * Saves the currently selected answer in the database for later retrieval and use.
+     */
     private void saveAnswer(){
         //detect which radio button is pressed and save the corresponding answer
         int Qid = index.getInt(db.COL_ROWID);
@@ -178,10 +218,16 @@ public class QuestionActivity extends AppCompatActivity {
 
     }
 
-    /***************************************************
-     * Display Question
-     * -Displays the current question
-    ***************************************************/
+    /**
+     * Displays the current question.
+     *
+     * First this activity uses the database to display the number of the current question. Next the
+     * question itself is displayed. If the data base indicates that an answer has been given to
+     * this question previously, the radio button corrisponding to that answer will be illuminated.
+     * If it is the first question in the database, the "prev.b" button will temporarily be hidden.
+     * If it is the last question in the database, the "next.b" button will change its text to
+     * "Finish", in preparation for the move to the analysis activity.
+     */
     private void displayQuestion(){
         //display current question
         String questionText = index.getString(db.COL_QUESTION_TEXT);
@@ -189,11 +235,13 @@ public class QuestionActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.QuestionText)).setText("Question " + String.valueOf(index.getPosition() + 1) + ":\n" + questionText);
         Cursor a = db.getAnswer(updatedC.getInt(db.COL_ROWID), sessionID);
 
+        //used if the question is unanswered
         String ans;
         if(a == null)
             ans = "U";
         else
             ans = a.getString(db.COL_QUESTION_ANSWER);
+
         //display saved answer, if any
         switch(ans){
             case "Y":
@@ -213,30 +261,41 @@ public class QuestionActivity extends AppCompatActivity {
 
         //set prev/next button apearance
         if(!index.isFirst())
-            ((TextView) findViewById(R.id.prevText)).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.prev_b)).setVisibility(View.VISIBLE);
         else
-            ((TextView) findViewById(R.id.prevText)).setVisibility(View.INVISIBLE);
+            ((TextView) findViewById(R.id.prev_b)).setVisibility(View.INVISIBLE);
 
         if(!index.isLast())
-            ((TextView) findViewById(R.id.nextText)).setText("next>");
+            ((TextView) findViewById(R.id.next_b)).setText("next>");
         else
-            ((TextView) findViewById(R.id.nextText)).setText("Finish");
+            ((TextView) findViewById(R.id.next_b)).setText("Finish");
 
         Log.i(TAG, "The current quetion is \"" + index.getString(1) + "\".");
     }
 
-
-    //TESTS
-
-    //contains tests for the question activity
+    /**
+     * @author Adam Cameron
+     * @since 2015-11
+     */
     public class QuestionTests extends InstrumentationTestCase {
 
+        /**
+         * Test to ensure that the nextQuestion method maintains a proper index.
+         *
+         * @throws Exception    Caught by the system in the case of a test fail.
+         */
         public void testNextQuestionIndexOverflow() throws Exception{
             QuestionActivity toTest = new QuestionActivity();
             for (int i = 0; i < 1000; i++)
                  toTest.nextQuestion();
-            assert(toTest.index.getPosition() <= 3);
+            assert(toTest.index.getPosition() >= 1);
         }
+
+        /**
+         * Test to ensure that the prevQuestion method maintains a proper index.
+         *
+         * @throws Exception    Caught by the system in the case of a test fail.
+         */
         public void testPrevQuestionIndexOverflow() throws Exception {
             QuestionActivity toTest = new QuestionActivity();
             for (int i = 0; i < 1000; i++)

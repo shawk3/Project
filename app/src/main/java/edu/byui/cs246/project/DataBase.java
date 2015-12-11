@@ -14,9 +14,20 @@ import java.util.HashMap;
  * @since 2015-10-31
  */
 public class DataBase {
+    /** maps a table to all of its column keys */
     HashMap<String, String[]> tables = new HashMap<>();
+    /** Name of the Database */
     public static final String DBNAME = "myDB";
 
+    /**
+     * List of Tables:
+     * QTable (Questions)
+     * ATable (Answers)
+     * Sector_Table (Sectors)
+     * Sub_Sector_Table (Sub_Sectors)
+     * Sector_SubSector_Table (mapping between Sectors and sub_Sectors
+     * Session_Table (The current profile)
+     */
     public static final String QTABLE = "QuestionsTable";
     public static final String ATABLE = "AnsTable";
     public static final String SECTOR_TABLE = "SectorTable";
@@ -25,23 +36,32 @@ public class DataBase {
     public static final String SESSION_TABLE = "STable";
     public static final int VERSION = 5;
 
-    //All Tables
+
+    /** Key_RowId is the first column in every table */
     public static final String Key_ROWID = "id";
+    /** Reference to the rowId column position */
     public static final int COL_ROWID = 0;
 
-    //Question Table
+
+
+
+    /** Column for the question text and its column index */
     public static final String Key_QUESTION_TEXT = "QText";
     public static final int COL_QUESTION_TEXT = 1;
 
+    /** all the keys for the question table in an array*/
     public static final String[] ALL_QUESTION_KEYS = new String[] {Key_ROWID, Key_QUESTION_TEXT};
 
+    /** code to create the question table */
     private static final String CREATE_QTable = "create table if not exists " + QTABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_QUESTION_TEXT + " text not null"
             + ");";
 
 
-    //Answer Table
+
+
+    /** Columns of the Answer Table and the column indexes */
     public static final String Key_QID = "QId";
     public static final String Key_SID = "SessionID";
     public static final String Key_QUESTION_ANSWER = "Answer";
@@ -49,8 +69,10 @@ public class DataBase {
     public static final int Col_Session_ID = 2;
     public static final int COL_QUESTION_ANSWER = 3;
 
+    /** Put all columns of the answer table in an array */
     public static final String[] ALL_Answer_KEYS = new String[] {Key_ROWID, Key_QID, Key_SID, Key_QUESTION_ANSWER};
 
+    /** code to create answer table */
     private static final String CREATE_ATable = "create table if not exists " + ATABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_QID + " integer not null, "
@@ -58,44 +80,61 @@ public class DataBase {
             + Key_QUESTION_ANSWER + " text not null"
             + ");";
 
-    //Sector Table
+
+
+
+    /** sector table columns and indexes*/
     public static final String Key_SECTOR = "Sector";
     public static final int COL_SECTOR = 1;
 
+    /** all sector table columns in an array */
     public static final String[] ALL_SECTOR_KEYS = new String[] {Key_ROWID, Key_SECTOR};
 
+    /** code to create sector table */
     private static final String CREATE_SECTOR_Table = "create table if not exists " + SECTOR_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_SECTOR + " text not null"
             + ");";
 
-    //sub-Sector Table
+
+
+
+    /** sub-sector table columns and indexes*/
     public static final String Key_SUB_SECTOR = "SubSector";
     public static final int COL_SUB_SECTOR = 1;
 
+    /** all sub-sector table columns in an array */
     public static final String[] ALL_SUB_SECTOR_KEYS = new String[] {Key_ROWID, Key_SUB_SECTOR};
 
+    /** code to create sub-sector table */
     private static final String CREATE_SUB_SECTOR_Table = "create table if not exists " + SUB_SECTOR_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_SUB_SECTOR + " text not null"
             + ");";
 
-    //Sector vs SubSector Table
+
+
+
+    /** Sector vs SubSector Table columns and indexes */
     public static final String Key_SECTOR_ID = "SectorID";
     public static final String Key_Sub_Sector_ID = "SubSectorID";
-
     public static final int COL_SECTOR_ID = 1;
     public static final int COL_SUB_SECTOR_ID = 2;
 
+    /** sector mapping columns in an array */
     public static final String[] ALL_SECTOR_SUBSECTOR_KEYS = new String[] {Key_ROWID, Key_SECTOR_ID, Key_Sub_Sector_ID};
 
+    /** code to create the sector-mapping table */
     private static final String CREATE_SECTOR_SUBSECTOR_Table = "create table if not exists " + SECTOR_SUB_SECTOR_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_SECTOR_ID + " integer not null, "
             + Key_Sub_Sector_ID + " integer not null"
             + ");";
 
-    //Session Table
+
+
+
+    /** columns and indices of the session table */
     public static final String Key_SESSION_NAME = "Name";
     public static final String Key_Date = "Date";
     public static final String Key_SECTOR_SUBSECTOR_ID = "SectorSubSectorID";
@@ -103,8 +142,10 @@ public class DataBase {
     public static final int COL_DATE = 2;
     public static final int COL_SECTOR_SUB_SECTOR_ID = 3;
 
+    /** all columns in an array of the session table */
     public static final String[] ALL_SESSION_KEYS = new String[] {Key_ROWID, Key_SESSION_NAME, Key_Date, Key_SECTOR_SUBSECTOR_ID};
 
+    /** code to create the session table */
     private static final String CREATE_SESSION_Table = "create table if not exists " + SESSION_TABLE
             + " (" + Key_ROWID + " integer primary key autoincrement, "
             + Key_SESSION_NAME + " text not null, "
@@ -114,14 +155,18 @@ public class DataBase {
 
 
 
+    /** the Activity that created this class */
     private Context context;
-
+    /** the class that will actually create the databases */
     private DataBaseHelper myDBHelper;
+    /** the dataBase */
     private SQLiteDatabase db;
 
     public DataBase(Context ctx){
         this.context = ctx;
         myDBHelper = new DataBaseHelper(context);
+
+        //create the mapping between the tables and their keys
         tables.put(ATABLE, ALL_Answer_KEYS);
         tables.put(QTABLE, ALL_QUESTION_KEYS);
         tables.put(SESSION_TABLE, ALL_SESSION_KEYS);
@@ -149,8 +194,15 @@ public class DataBase {
 
 
 
+    //Insert methods
+
+
+
     /**
-     * General insert, Only works with tables that have an Int id and one String column
+     * General insert
+     *
+     * Inserts a row into a specified table. Only works with tables that have a string value as
+     * the column.  Row_id excepted
      *
      * @param table The name of the dataTable
      * @param text The string value to insert
@@ -164,8 +216,6 @@ public class DataBase {
         return db.insert(table, null, initialValues);
     }
 
-
-
     /**
      * insert a row on the Answer Table
      *
@@ -177,6 +227,7 @@ public class DataBase {
     public long insertAnswer(int Sid, int Qid, String ans){
         ContentValues initialValues = new ContentValues();
         Cursor c = getAnswer(Qid, Sid);
+        //check if the answer already exists, if not create it
         if(c == null){
             initialValues.put(Key_QID, Qid);
             initialValues.put(Key_SID, Sid);
@@ -184,15 +235,12 @@ public class DataBase {
 
             return db.insert(ATABLE, null, initialValues);
         }
+        //if the answer already exists then just update it
         else{
             updateAnswer(Qid, Sid, ans);
             return c.getInt(COL_QUESTION_ID);
         }
-
-
     }
-
-
 
     /**
      * insert a row to the Session Table
@@ -211,8 +259,6 @@ public class DataBase {
         return db.insert(SESSION_TABLE, null, initialValues);
     }
 
-
-
     /**
      * insert mapping from a sector to a subsector
      *
@@ -229,6 +275,9 @@ public class DataBase {
     }
 
 
+    // Delete methods
+
+
 
     /**
      * Delete a row from a table
@@ -240,20 +289,6 @@ public class DataBase {
     public boolean deleteRow(String table, long rowID){
         String where = Key_ROWID + " = " + rowID;
         return db.delete(table, where, null) > 0;
-    }
-
-    //Delete an Answer
-
-    /**
-     * Delete an Answer from the AnswerTable
-     * @param qID The id of the Question it belongs to
-     * @param sID The id of the Session it belongs to
-     * @return The success of the deletion as a boolean
-     */
-    public boolean deleteAnswer(int qID, int sID){
-        String where = Key_QID + " = " + qID;
-        where += " AND " + Key_SID + " = " + sID;
-        return db.delete(ATABLE, where, null) > 0;
     }
 
     /**
@@ -272,6 +307,22 @@ public class DataBase {
         c.close();
     }
 
+    /**
+     * Delete an Answer from the AnswerTable
+     * @param qID The id of the Question it belongs to
+     * @param sID The id of the Session it belongs to
+     * @return The success of the deletion as a boolean
+     */
+    public boolean deleteAnswer(int qID, int sID){
+        String where = Key_QID + " = " + qID;
+        where += " AND " + Key_SID + " = " + sID;
+        return db.delete(ATABLE, where, null) > 0;
+    }
+
+
+    // Get Methods
+
+
 
     /**
      * Get all the rows from a table
@@ -289,25 +340,31 @@ public class DataBase {
     }
 
     /**
-     * Gets a single row from a table according to a row id
+     * Get row with row_id
+     *
+     * The Method will return the row with the specified row_id
      *
      * @param table The name of the table
      * @param rowId The id of the row
-     * @return A Cursor with that row
+     * @return A Cursor with specified row
      */
     public Cursor getRow(String table, long rowId){
         String where = Key_ROWID + " = " + rowId;
         String keys[] = tables.get(table);
         Cursor c = db.query(true, table, keys , where, null, null, null, null, null);
+
+        //if there are no rows with that id then return
         if(c.getCount() <= 0){
             return null;
         }
+
+        //move to the first row
         c.moveToFirst();
         return c;
     }
 
     /**
-     * Get The rows tht match the associating text
+     * Gets rows that match the associating text
      *
      * Carefull with this one! the text is matched with that of the second column in the table, if
      * the second column is not a string value then this function will throw an exception and the
@@ -331,7 +388,7 @@ public class DataBase {
     }
 
     /**
-     * Get the sub-sectors that map to a specific sector
+     * Gets sub-sectors that map to a specific sector.
      *
      * @param sectorID The id of the sector
      * @return A cursor with all the sub-sectors that match that sector
@@ -339,6 +396,7 @@ public class DataBase {
     public Cursor getSubSectors(long sectorID){
         String where = Key_SECTOR_ID + " = " + sectorID;
         Cursor c = db.query(true, SECTOR_SUB_SECTOR_TABLE, ALL_SECTOR_SUBSECTOR_KEYS, where, null, null, null, null, null);
+
         if(c.getCount() <= 0)
             return null;
 
@@ -347,9 +405,10 @@ public class DataBase {
     }
 
     /**
-     * Get the Answer that is associated with a question and session
+     * Gets an answer.
      *
-     * Returns null if no answer yet exists
+     * This function will return the answer that is associated with the specific question and
+     * session. Be careful because it returns null if the answer does not yet exists
      *
      * @param qID The question id
      * @param sID The session id
@@ -359,14 +418,23 @@ public class DataBase {
         String where = Key_QID + " = " + qID;
         where += " AND " + Key_SID + " = " + sID;
         Cursor c = db.query(true, ATABLE, ALL_Answer_KEYS , where, null, null, null, null, null);
-        if(c != null){
-            c.moveToFirst();
-        }
+
         if(c.getCount() == 0)
             return null;
+
+        c.moveToFirst();
         return c;
     }
 
+    /**
+     * Get a Sector Mapping
+     *
+     * This method returns the row that contains the specified Sector and sub-Sector ids.
+     *
+     * @param sID sector id
+     * @param subID sub-sector id
+     * @return the specified row
+     */
     public Cursor getSectorSubSectorMap(int sID, int subID){
         String where = Key_SECTOR_ID + " = " + sID;
         where += " AND " + Key_Sub_Sector_ID + " = " + subID;
@@ -379,6 +447,15 @@ public class DataBase {
         return c;
     }
 
+    /**
+     * Get a map between Sector and sub-Sector
+     *
+     * This function returns the Row that contains both the Sector and sub-Sector
+     *
+     * @param sector name of the sector
+     * @param subSector name of the sub-sector
+     * @return The row that contains the specified Sector and sub-Sector
+     */
     public Cursor getSectorSubSectorMap(String sector, String subSector){
         int sID = getRow(SECTOR_TABLE, sector).getInt(COL_ROWID);
         int subID = getRow(SUB_SECTOR_TABLE, subSector).getInt(COL_ROWID);
@@ -404,6 +481,11 @@ public class DataBase {
             return null;
         return c;
     }
+
+
+    //Update Methods
+
+
 
     /**
      * Update the Answer to a question
@@ -441,27 +523,14 @@ public class DataBase {
         return db.update(SESSION_TABLE, newValues, where, null) > 0;
     }
 
-
-
-
-    //Adam's version
-    //public boolean roughUpdateRow(Cursor toRow, String answer){
-        //get data from row
-      //  long rowId = toRow.getPosition();
-        //String question = toRow.getString(1);
-
-        //delete row
-        //deleteRow(rowId);
-
-        //make new row
-//        insertRow(question, answer);
-
-  //      return true;
-    //}
+    
 
 
 
 
+    /**
+     * Class for Creating DataBase instance
+     */
     private static class DataBaseHelper extends SQLiteOpenHelper {
 
         public DataBaseHelper(Context context) {
@@ -487,27 +556,5 @@ public class DataBase {
             onCreate(db);
         }
     }
-
-    /*public class DataBaseTests extends InstrumentationTestCase {
-        public long id;
-
-        public void testInsertRow(){
-            id = insertRow("My Test Question", "U");
-            Cursor c = getRow(id);
-            assert(c.moveToFirst());
-
-            c.close();
-        }
-
-        public void testUpdateRow(){
-            updateRow(id, "Y");
-            Cursor c = getRow(id);
-            assert(c.moveToFirst());
-            String ans = c.getString(COL_QUESTION_ANSWER);
-            assertEquals(ans, "Y");
-            assert(1 == 2);
-
-        }
-    }*/
 
 }

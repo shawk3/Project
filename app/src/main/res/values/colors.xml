@@ -13,6 +13,7 @@
     <color name="colorGreen2">#60E060</color>
     <color name="colorBlue1">#0000FF</color>
     <color name="colorBlue2">#6060E0</color>
+    <color name ="blueHighlight">#c86060e0</color>
     <color name="colorRed1">#FF0000</color>
     <color name="colorRed2">#E06060</color>
     <color name="colorYellow1">#FFFF00</color>

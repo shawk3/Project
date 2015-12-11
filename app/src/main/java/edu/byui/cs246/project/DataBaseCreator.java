@@ -19,12 +19,14 @@ import java.util.Set;
  */
 public class DataBaseCreator {
 
+    /** List of all the Sectors */
     String[] demographics = {"Default", "Chemical", "Commercial Facilities", "Communications",
             "Critical Manufacturing", "Dams", "Defense Industrial Base", "Emergency Services",
             "Energy", "Financial Services", "Food and Agriculture", "Government Facilities",
             "Health-care and Public Health", "Information Technology", "Nuclear Reactors, Materials, and Waste",
             "Transportation Systems", "Water and Waste-water Systems"};
 
+    /** List of all the sub-Sectors */
     String[] subSectors = { "Default", "Basic", "Specialty", "Agricultural", "Pharmaceuticals", "Consumer", "Entertainment and Media",
                         "Gaming", "Lodging", "Outdoor Events", "Public Assembly", "Real Estate", "Retail", "Sports Leagues",
                         "Primary Metal", "Machinery", "Electrical Equipment", "Transportation Equipment",
@@ -33,6 +35,7 @@ public class DataBaseCreator {
                         "Highway Infrastructure", "Maritime Transportation", "Mass Transit", "Pipeline Systems", "Freight Rail", "Postal and Shipping",
                         "Private Sector", "Public Sector"};
 
+    /** Sector sub-sector mapping by index */
     int[][] map = new int[][]{{0,0},
             {1,1},{1,2},{1,3},{1,4},{1,5},
             {2,6},{2,7},{2,8},{2,9},{2,10},{2,11},{2,12},{2,13},
@@ -51,7 +54,7 @@ public class DataBaseCreator {
             {15,28},{15,29},{15,30},{15,31},{15,32},{15,33},{15,34},
             {16,35}};
 
-
+    /**  List of all the questions */
     String questions[] = new String[]{"Have all default passwords been changed?",
             "Are there policies and procedures concerning the generation and use of passwords?",
             "Does the system uniquely identify and authenticate organizational users?",
@@ -73,12 +76,11 @@ public class DataBaseCreator {
             "Does remote access to the network require authentication prior to system connection?",
     };
 
-    Context context;
+    /* Our DataBase */
     DataBase dataBase;
 
-    public DataBaseCreator(DataBase c){
-        //context = c;
-        dataBase = c;
+    public DataBaseCreator(DataBase d){
+        dataBase = d;
 
 
     }
@@ -87,10 +89,8 @@ public class DataBaseCreator {
      * create a new instance of the data base
      */
     public void create(){
-        //DataBase dataBase = new DataBase(context);
         dataBase.open();
 
-        //dataBase.deleteAll();
         dataBase.deleteAll(dataBase.ATABLE);
         dataBase.deleteAll(dataBase.QTABLE);
         dataBase.deleteAll(dataBase.SESSION_TABLE);
@@ -109,24 +109,27 @@ public class DataBaseCreator {
     }
 
 
-
+    /** Send questions to the dataBase. */
     private void createQuestions(){
 
         for(int i = 0; i < questions.length; i++)
             dataBase.insertRow(dataBase.QTABLE, questions[i]);
     }
 
+    /** Send sector list to the dataBase. */
     private void createSectors(){
 
         for(int i = 0; i < demographics.length; i++)
             dataBase.insertRow(dataBase.SECTOR_TABLE, demographics[i]);
     }
 
+    /** Send Sub-Sectors to the DataBase */
     private void createSubSectors(){
         for(int i = 0; i < subSectors.length; i++)
             dataBase.insertRow(dataBase.SUB_SECTOR_TABLE, subSectors[i]);
     }
 
+    /** Send Sector mapping to the DataBase */
     private void createSectorSubSectorMap(){
 
         int sectorID;
@@ -144,9 +147,5 @@ public class DataBaseCreator {
             dataBase.insertSectorSubSector(sectorID, subID);
 
         }
-    }
-
-    private void createSessions(){
-        dataBase.insertSession("Test Assessment", "today", 1);
     }
 }

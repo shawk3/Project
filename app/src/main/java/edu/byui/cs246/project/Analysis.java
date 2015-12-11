@@ -15,13 +15,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
+ * Show graphs
+ *
+ * This Activity shows graphs describing how the User has performed in their assessment
+ *
  * @author Kyle
  * @since 2015-11
  */
 public class Analysis extends AppCompatActivity {
     SharedPreferences settings;
     int sessionID;
+
+    /** The linear layout of the bars for the bar chart*/
     LinearLayout la;
+    /** The layout for the graph key */
     LinearLayout key;
 
     @Override
@@ -32,22 +39,28 @@ public class Analysis extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Analysis");
+
+        //get the current session
         settings = getSharedPreferences("settingsFile", 0);
         sessionID = settings.getInt("Session", 0);
 
+        //set views
         la = (LinearLayout)findViewById(R.id.lchart);
         key = (LinearLayout)findViewById(R.id.key);
 
+        //Colors for the bars in bar chart
         int drawableId[] = {R.drawable.analysis_chart_green,
                             R.drawable.analysis_chart_red,
                             R.drawable.analysis_chart_yellow,
                             R.drawable.analysis_chart_blue};
 
+        //Heights of the bar chart, to be calculated off of counts
         int height[] = getHeights();
 
+        //draw the graph
         for(int j = 0; j < height.length; j++){
 
-            drawChart(1,drawableId[j],height[j]);
+            drawChart(drawableId[j],height[j]);
         }
 
         drawKey();
@@ -126,21 +139,20 @@ public class Analysis extends AppCompatActivity {
     }
 
     /**
-     * Draw the Graph
+     * Draw a rectangle
      *
-     * Create a rectangle of the appropriate height and color
+     * Create a rectangle of the appropriate height and color for the bar graph
      *
      *
-     * @param count
      * @param drawableId
-     * @param height The Count of questions with the same answer
+     * @param height The Count of questions with the same answer, used to calculate height
      */
-    private void drawChart(int count, int drawableId, int height) {
+    private void drawChart(int drawableId, int height) {
         //System.out.println(count+color+height);
         //color = Color.BLUE;
 
         View view = new View(this);
-        view.setLayoutParams(new LinearLayout.LayoutParams(100, height * 30));
+        view.setLayoutParams(new LinearLayout.LayoutParams(100, height * 40));
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)(view.getLayoutParams());
 

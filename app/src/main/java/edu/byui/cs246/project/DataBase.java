@@ -10,6 +10,11 @@ import android.test.InstrumentationTestCase;
 import java.util.HashMap;
 
 /**
+ * Adapt data for use
+ *
+ * This Class Adapts the normal java code into SQL readable code. This is the main class for
+ * connecting to the Database.
+ *
  * @author Kyle
  * @since 2015-10-31
  */
@@ -523,7 +528,7 @@ public class DataBase {
         return db.update(SESSION_TABLE, newValues, where, null) > 0;
     }
 
-    
+
 
 
 

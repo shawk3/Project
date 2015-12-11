@@ -38,8 +38,13 @@ public class QuestionActivity extends AppCompatActivity {
      */
     Cursor index;
 
+    /** Our DataBase */
     DataBase db;
+
+    /** storing sessions */
     SharedPreferences settings;
+
+    /** The id of the current session */
     int sessionID;
 
 

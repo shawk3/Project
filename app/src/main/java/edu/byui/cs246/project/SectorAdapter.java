@@ -55,6 +55,9 @@ public class SectorAdapter extends BaseExpandableListAdapter {
         defaultSubSect = ",";
     }
 
+    /**
+     * Set the default group so that it can be auto expanded.
+     */
     private void setDefaultGroup() {
         for(int i = 0; i < getGroupCount(); i++){
             String sector = Sector_List.get(i);

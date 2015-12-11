@@ -172,7 +172,7 @@ public class Analysis extends AppCompatActivity {
      */
     private void drawPercent(int height[]) {
         int percent;
-        if((height[0] + height[1] + height[3]) == 0)
+        if((height[0] + height[1] + height[3]) != 0)
             percent = (100 * height[0]) / (height[0] + height[1] + height[3]);
         else
             percent = 0;
